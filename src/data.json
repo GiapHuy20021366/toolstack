@@ -1,0 +1,43 @@
+{
+    "_def": {
+        "type": "function",
+        "input": {
+            "def": {
+                "type": "tuple",
+                "items": [],
+                "rest": null
+            },
+            "type": "tuple"
+        },
+        "output": {
+            "def": {
+                "type": "string"
+            },
+            "type": "string",
+            "format": null,
+            "minLength": null,
+            "maxLength": null
+        }
+    },
+    "def": {
+        "type": "function",
+        "input": {
+            "def": {
+                "type": "tuple",
+                "items": [],
+                "rest": null
+            },
+            "type": "tuple"
+        },
+        "output": {
+            "def": {
+                "type": "string"
+            },
+            "type": "string",
+            "format": null,
+            "minLength": null,
+            "maxLength": null
+        }
+    },
+    "type": "function"
+}
