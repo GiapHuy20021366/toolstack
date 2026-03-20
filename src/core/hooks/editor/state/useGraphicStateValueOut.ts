@@ -1,20 +1,20 @@
 import { useMemo } from "react";
-import { makeComponentStateOutKey } from "../manager/state-manager";
-import useTsState, { IUseTsStateOptions } from "./useTsState";
+import useTsState, { IUseTsStateOptions } from "../../useTsState";
+import { makeGraphicStateOutKey } from "../../../manager/state-manager";
 
-export interface IUseTsComponentStateOutOptions<T = unknown> {
+export interface IGraphicStateValueOutOptions<T = unknown> {
   cid: string;
   stateName: string;
   defaultValue: T;
 }
 
-export default function useTsComponentStateOut<T>(
+export default function GraphicStateValueOut<T>(
   cid: string,
   stateName: string,
   defaultValue: T,
 ) {
   const tsStateOptions = useMemo((): IUseTsStateOptions<T> => {
-    const key = makeComponentStateOutKey(cid, stateName);
+    const key = makeGraphicStateOutKey(cid, stateName);
     return {
       key: key,
       defaultValue: defaultValue,

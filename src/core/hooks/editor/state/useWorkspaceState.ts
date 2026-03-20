@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { makeGlobalStateKey } from "../manager/state-manager";
-import useTsState, { IUseTsStateOptions } from "./useTsState";
+import useTsState, { IUseTsStateOptions } from "../../useTsState";
+import { makeWorkspaceKey } from "../../../manager/state-manager";
 
-export default function useTsGlobalState<T>(
+export default function useWorkspaceState<T>(
   stateName: string,
   defaultValue: T,
 ) {
   const tsStateOptions = useMemo((): IUseTsStateOptions<T> => {
-    const key = makeGlobalStateKey(stateName);
+    const key = makeWorkspaceKey(stateName);
     return {
       key: key,
       defaultValue: defaultValue,

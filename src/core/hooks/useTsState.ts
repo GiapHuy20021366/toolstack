@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef, useState } from "react";
-import useTsContext from "./useTsContext";
 import {
-  ISetValueEventData,
   TsVariableManagerEvent,
+  ISetValueEventData,
 } from "../manager/variable-manager";
+import useTsContext from "./useTsContext";
 
 export interface IUseTsStateOptions<T = unknown> {
   key: string;
@@ -61,6 +61,22 @@ export default function useTsState<T>(
    * Top down state sync
    */
   useEffect(() => {
+    // Update value when options change
+    const { key } = options;
+    const parentValue = stateManager.getValue<T>(key);
+    if (parentValue === undefined) {
+      innerUpdateCountRef.current = stateManager.setValue(
+        key,
+        options.defaultValue,
+        { silent: true },
+      );
+      _setState(options.defaultValue);
+    } else {
+      innerUpdateCountRef.current = stateManager.getUpdateCount(key) || 0;
+      _setState(parentValue);
+    }
+
+    // Handle event
     const eventName = TsVariableManagerEvent.SET_VALUE_KEY(options.key);
     const listener = ({ count, newValue: value }: ISetValueEventData<T>) => {
       if (count > innerUpdateCountRef.current) {

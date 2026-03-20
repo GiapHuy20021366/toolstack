@@ -1,7 +1,7 @@
-import useTsComponentState from "../../hook/useTsComponentState";
-import { ITsStateProps } from "../../manager/component-manager";
+import useGraphicStateValue from "../../hooks/editor/state/useGraphicStateValue";
+import { INativeStateProps } from "../../manager/component-manager";
 
-export interface ITsInputInputTypeSelectorProps extends ITsStateProps<unknown> {}
+export interface ITsInputInputTypeSelectorProps extends INativeStateProps<unknown> {}
 
 const INPUT_TYPES = [
   "button",
@@ -34,7 +34,7 @@ export default function TsInputInputTypeSelector({
   cid,
   state,
 }: ITsInputInputTypeSelectorProps) {
-  const [type, setType] = useTsComponentState<InputType>(
+  const [type, setType] = useGraphicStateValue<InputType>(
     cid,
     state.name,
     "text",

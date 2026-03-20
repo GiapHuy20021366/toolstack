@@ -21,8 +21,8 @@ export interface ISetValueEventData<T = unknown> {
  * A class to manage key-value
  */
 export class CTsVariableManager extends EventEmitter {
-  private keyValueMap: Map<string, unknown>;
-  private updateCountMap: Map<string, number>;
+  protected keyValueMap: Map<string, unknown>;
+  protected updateCountMap: Map<string, number>;
 
   constructor() {
     super();

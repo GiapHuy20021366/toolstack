@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import z from "zod";
 import {
   CTsComponentManager,
-  ITsComponent,
-  ITsComponentState,
+  INativeComponent,
+  INativeComponentState,
 } from "../../manager/component-manager";
 import TsInput from "./TsInput";
 import { ETsVersion } from "../../manager/version-manager";
@@ -14,13 +13,13 @@ import TsInputInputValueEditor, {
   ITsInputInputValueEditorProps,
 } from "../editors/TsInputInputValueEditor";
 
-const TYPE_STATE: ITsComponentState<
+const TYPE_STATE: INativeComponentState<
   ITsInputInputTypeSelectorProps["options"],
   ITsInputInputTypeSelectorProps
 > = {
   name: "type",
   description: "",
-  type: z.string(),
+  type: "string",
   isStateIn: false,
   isStateOut: false,
   defaultValue: "text",
@@ -30,13 +29,13 @@ const TYPE_STATE: ITsComponentState<
   },
 } as const;
 
-const VALUE_STATE: ITsComponentState<
+const VALUE_STATE: INativeComponentState<
   ITsInputInputValueEditorProps["options"],
   ITsInputInputValueEditorProps
 > = {
   name: "value",
   description: "",
-  type: z.string(),
+  type: "string",
   isStateIn: false,
   isStateOut: false,
   defaultValue: "text",
@@ -46,10 +45,22 @@ const VALUE_STATE: ITsComponentState<
   },
 } as const;
 
-export const tsInputComponent: ITsComponent<any> = {
-  name: "TsInput",
-  component: TsInput,
+export const tsInputComponent: INativeComponent<any> = {
+  cid: "TsInput",
+  name: "Input",
+  description: "The input element",
+  element: TsInput,
   states: [TYPE_STATE, VALUE_STATE],
   version: ETsVersion._0_0_0,
+  image: "/images/review/TsInput.png",
+  layout: {
+    x: 0,
+    y: 0,
+    width: 183,
+    height: 25,
+    minWidth: 40,
+    minHeight: 30,
+  },
+  isContainer: false,
 };
-CTsComponentManager.registerComponent(tsInputComponent);
+CTsComponentManager.instance.registerNativeComponent(tsInputComponent);
