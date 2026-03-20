@@ -8,19 +8,25 @@ import {
 } from "@mui/icons-material";
 import useGraphicEditorContext from "./useGraphicEditorContext";
 import React, { useMemo } from "react";
-import { CTsComponentManager } from "../manager/component-manager";
+import {
+  CTsComponentManager,
+  ENativeComponentRole,
+} from "../manager/component-manager";
 import useGraphicDataLayout from "../hooks/editor/component/useGraphicDataLayout";
 import useGraphicDataChildren from "../hooks/editor/component/useGraphicDataChildren";
 import useGraphicDataNativeCid from "../hooks/editor/component/useGraphicDataNativeCid";
 import useWorkspaceSelectedComponent from "../hooks/editor/workspace/useWorkspaceSelectedComponent";
 import useWorkspaceDragOverComponent from "../hooks/editor/workspace/useWorkspaceDragOverComponent";
 import useGraphicDataVisible from "../hooks/editor/component/useGraphicDataVisible";
+import useSelectedLayer from "../hooks/editor/workspace/useSelectedLayer";
+import useGraphicDataName from "../hooks/editor/component/useGraphicDataName";
 
 interface IProps {
   cid: string;
+  inLayer?: boolean;
 }
 
-export default function GraphicRenderer({ cid }: IProps) {
+export default function GraphicRenderer({ cid, inLayer }: IProps) {
   const { layout, setLayout } = useGraphicDataLayout(cid);
   const { children } = useGraphicDataChildren(cid);
   const { nativeCid } = useGraphicDataNativeCid(cid);
@@ -28,6 +34,8 @@ export default function GraphicRenderer({ cid }: IProps) {
   const { dragoverCid } = useWorkspaceDragOverComponent();
   const { deleteGraphic, exportGraphicPiece } = useGraphicEditorContext();
   const { visible } = useGraphicDataVisible(cid);
+  const { name } = useGraphicDataName(cid);
+  const { isVisibleBySelectedLayer, selectedLayer } = useSelectedLayer();
 
   const isSelected = cid === selectedCid;
   const isDragOver = dragoverCid === cid;
@@ -44,16 +52,44 @@ export default function GraphicRenderer({ cid }: IProps) {
     return component;
   }, [nativeCid]);
 
-  const isContainer = !!nativeComponent?.isContainer;
+  const isContainer =
+    nativeComponent != null &&
+    nativeComponent.role >= ENativeComponentRole.CONTAINER;
+  const isLayer =
+    nativeComponent != null &&
+    nativeComponent.role >= ENativeComponentRole.LAYER;
+  const isScreen =
+    nativeComponent != null &&
+    nativeComponent.role >= ENativeComponentRole.LAYER;
+
+  const className = [
+    "inner-rnd",
+    "graphic-component",
+    isSelected && "selected",
+    isDragOver && "drag-over",
+    isContainer && "container",
+    isLayer && "layer",
+    isScreen && "screen",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  inLayer ||= cid === selectedLayer;
 
   return (
     <>
-      {layout != null && visible && (
+      {layout != null && isVisibleBySelectedLayer(cid, inLayer, visible) && (
         <Rnd
           component-cid={cid}
           container-cid={isContainer ? cid : undefined}
-          data-layout-x={layout.x}
-          data-layout-y={layout.y}
+          layer-cid={isLayer ? cid : undefined}
+          screen-cid={isScreen ? cid : undefined}
+          component-name={name}
+          component-role={
+            nativeComponent?.role != null
+              ? String(nativeComponent.role)
+              : undefined
+          }
           position={{
             x: layout.x,
             y: layout.y,
@@ -89,7 +125,7 @@ export default function GraphicRenderer({ cid }: IProps) {
             setSelectedCid(cid);
           }}
           bounds="parent"
-          className={`inner-rnd graphic-component ${isSelected ? "selected" : ""} ${isDragOver ? "drag-over" : ""} ${isContainer ? "container" : ""}`}
+          className={className}
           id={cid}
           dragHandleClassName="nested-header"
           cancel=".inner-element"
@@ -150,7 +186,7 @@ export default function GraphicRenderer({ cid }: IProps) {
             React.createElement(nativeComponent?.element, {
               cid,
               children: (children ?? []).map((cid) => (
-                <GraphicRenderer key={cid} cid={cid} />
+                <GraphicRenderer key={cid} cid={cid} inLayer={inLayer} />
               )),
             })}
         </Rnd>

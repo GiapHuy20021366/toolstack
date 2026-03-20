@@ -7,22 +7,22 @@ import {
 import { ETsVersion } from "../../manager/version-manager";
 import TsContainer from "./TsContainer";
 
-export const tsContainerComponent: INativeComponent<any> = {
-  cid: "TsContainer",
-  name: "Container",
-  description: "The container that contains every thing",
+export const tsLayerComponent: INativeComponent<any> = {
+  cid: "TsLayer",
+  name: "Layer",
+  description: "The layer that contains every thing",
   states: [],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
   layout: {
     x: 0,
     y: 0,
-    width: 200,
-    height: 80,
+    width: 300,
+    height: 300,
     minWidth: 40,
     minHeight: 40,
   },
   element: TsContainer,
-  role: ENativeComponentRole.CONTAINER,
+  role: ENativeComponentRole.LAYER,
 };
-CTsComponentManager.instance.registerNativeComponent(tsContainerComponent);
+CTsComponentManager.instance.registerNativeComponent(tsLayerComponent);

@@ -7,12 +7,19 @@ import GraphicEditorMenuContainer from "./GraphicEditorMenuContainer";
 import useWorkspaceRightBar from "../hooks/editor/workspace/useWorkspaceRightBar";
 import useWorkspaceLeftBar from "../hooks/editor/workspace/useWorkspaceLeftBar";
 import useGraphicDataRoot from "../hooks/editor/component/useGraphicDataRoot";
+import useGraphicLayers from "../hooks/editor/workspace/useLayerList";
+import useSelectedLayer from "../hooks/editor/workspace/useSelectedLayer";
+import useWorkspaceSelectedComponent from "../hooks/editor/workspace/useWorkspaceSelectedComponent";
 
 export default function GraphicEditorMain() {
   const { cid } = useGraphicEditorContext();
   const { open: rightBarOpen } = useWorkspaceRightBar();
   const { open: leftBarOpen } = useWorkspaceLeftBar();
   const { hasData } = useGraphicDataRoot();
+
+  const { layers } = useGraphicLayers("graphic-area");
+  const { selectedLayer, setSelectedLayer } = useSelectedLayer();
+  const { setSelectedCid } = useWorkspaceSelectedComponent();
 
   return (
     <Stack
@@ -27,6 +34,22 @@ export default function GraphicEditorMain() {
     >
       {/* Top Bar */}
       <Stack direction={"row"}>
+        <select
+          name=""
+          id=""
+          value={selectedLayer}
+          onChange={(e) => {
+            setSelectedLayer(e.target.value);
+            setSelectedCid(e.target.value);
+          }}
+        >
+          <option value="">None</option>
+          {layers.map((layer) => (
+            <option key={layer.cid} value={layer.cid}>
+              {layer.name || layer.cid}
+            </option>
+          ))}
+        </select>
         <GraphicEditorMainTopBar />
       </Stack>
 
@@ -39,9 +62,8 @@ export default function GraphicEditorMain() {
 
         {/* Graphic Area */}
         <Box
+          id={"graphic-area"}
           container-cid={!hasData ? cid : undefined}
-          data-layout-x={0}
-          data-layout-y={0}
           sx={{ flex: 1, border: "1px solid red", position: "relative" }}
         >
           <GraphicRenderer cid={cid} />

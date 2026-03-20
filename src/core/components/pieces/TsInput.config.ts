@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CTsComponentManager,
+  ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
 } from "../../manager/component-manager";
@@ -61,6 +62,6 @@ export const tsInputComponent: INativeComponent<any> = {
     minWidth: 40,
     minHeight: 30,
   },
-  isContainer: false,
+  role: ENativeComponentRole.ELEMENT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputComponent);

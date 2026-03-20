@@ -2,6 +2,13 @@
 import { ETsVersion } from "./version-manager";
 import EventEmitter from "eventemitter3";
 
+export enum ENativeComponentRole {
+  ELEMENT = 1,
+  CONTAINER = 2,
+  LAYER = 3,
+  SCREEN = 4,
+}
+
 export interface ILayoutBounds {
   x: number;
   y: number;
@@ -52,7 +59,7 @@ export interface INativeComponent<Props = unknown> {
   layout: ILayoutBounds; // Default layout
   image: string; // Url of review image
   element: (props?: Props) => JSX.Element; // Render element
-  isContainer: boolean; // Is container or not
+  role: ENativeComponentRole;
 }
 
 export enum ETsComponentCommonTag {
