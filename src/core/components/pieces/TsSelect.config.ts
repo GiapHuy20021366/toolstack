@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CTsComponentManager,
+  EComponentTag,
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
@@ -104,5 +105,6 @@ export const tsSelectComponent: INativeComponent<any> = {
     minHeight: 30,
   },
   role: ENativeComponentRole.ELEMENT,
+  tag: EComponentTag.INPUT
 };
 CTsComponentManager.instance.registerNativeComponent(tsSelectComponent);

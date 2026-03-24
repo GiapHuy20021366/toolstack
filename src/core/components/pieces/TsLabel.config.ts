@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CTsComponentManager,
+  EComponentTag,
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
@@ -44,5 +45,6 @@ export const tsInputLabelComponent: INativeComponent<any> = {
     minHeight: 25,
   },
   role: ENativeComponentRole.ELEMENT,
+  tag: EComponentTag.INPUT
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputLabelComponent);

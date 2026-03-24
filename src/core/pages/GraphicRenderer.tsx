@@ -124,7 +124,7 @@ export default function GraphicRenderer({ cid, inLayer }: IProps) {
             e.stopPropagation();
             setSelectedCid(cid);
           }}
-          bounds="parent"
+          // bounds="parent"
           className={className}
           id={cid}
           dragHandleClassName="nested-header"

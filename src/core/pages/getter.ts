@@ -335,5 +335,54 @@ export const ACCESSORS = (stateManager: CTsStateManager) => ({
         },
       },
     },
+
+    layout: {
+      scale: {
+        get: () => {
+          return stateManager.getValue<number>(
+            makeWorkspaceKey("layout.scale"),
+          );
+        },
+        set: (value: number) => {
+          return stateManager.setValue(makeWorkspaceKey("layout.scale"), value);
+        },
+      },
+      width: {
+        get: () => {
+          return stateManager.getValue<number>(
+            makeWorkspaceKey("layout.width"),
+          );
+        },
+        set: (value: number) => {
+          return stateManager.setValue(makeWorkspaceKey("layout.width"), value);
+        },
+      },
+      height: {
+        get: () => {
+          return stateManager.getValue<number>(
+            makeWorkspaceKey("layout.height"),
+          );
+        },
+        set: (value: number) => {
+          return stateManager.setValue(
+            makeWorkspaceKey("layout.height"),
+            value,
+          );
+        },
+      },
+      resolution: {
+        get: () => {
+          return stateManager.getValue<string>(
+            makeWorkspaceKey("layout.resolution"),
+          );
+        },
+        set: (value: string) => {
+          return stateManager.setValue(
+            makeWorkspaceKey("layout.resolution"),
+            value,
+          );
+        },
+      },
+    },
   },
 });

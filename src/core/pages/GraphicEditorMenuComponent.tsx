@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { CTsComponentManager } from "../manager/component-manager";
+import { COMPONENT_TAG_INFO_MAP, CTsComponentManager } from "../manager/component-manager";
 import { useEffect, useRef, useState } from "react";
 import "../components/pieces";
 import useGraphicEditorContext from "./useGraphicEditorContext";
@@ -18,7 +18,7 @@ import useWorkspaceDragOverComponent from "../hooks/editor/workspace/useWorkspac
 
 export default function GraphicEditorMenuComponent() {
   const { addGraphic } = useGraphicEditorContext();
-  const { nativeComponents, graphicComponents } = useGraphicComponents();
+  const { nativeComponentMap, graphicComponents } = useGraphicComponents();
   const { dragoverCid, setDragoverCid } = useWorkspaceDragOverComponent();
 
   const [dragging, setDragging] = useState<string | null>(null);
@@ -132,94 +132,96 @@ export default function GraphicEditorMenuComponent() {
     >
       {/* Native */}
       {
-        <Accordion defaultExpanded={true}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography>Native Component</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack direction="row" flexWrap="wrap" gap={2}>
-              {nativeComponents.map((component) => {
-                const isDragging = dragging === component.cid;
+        Object.entries(nativeComponentMap).map(([tagId, components]) => (
+          <Accordion key={tagId} defaultExpanded={true}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography>{COMPONENT_TAG_INFO_MAP[components[0].tag].name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack direction="row" flexWrap="wrap" gap={2}>
+                {components.map((component) => {
+                  const isDragging = dragging === component.cid;
 
-                return (
-                  <Box
-                    key={component.cid}
-                    title={component.description}
-                    sx={{
-                      maxWidth: 120,
-                      p: 1,
-                      borderRadius: 2,
-                      border: "1px solid transparent",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      transition: "all 0.2s ease",
-                      userSelect: "none",
-
-                      "&:hover": {
-                        borderColor: "primary.main",
-                        boxShadow: 3,
-                        backgroundColor: "action.hover",
-                      },
-                    }}
-                  >
-                    {/* DRAGGABLE IMAGE */}
+                  return (
                     <Box
-                      component="img"
-                      src={component.image}
-                      alt={component.name}
-                      draggable
-                      onDragStart={(e) => {
-                        setDragging(component.cid);
-
-                        const img = e.currentTarget as HTMLElement;
-                        const rect = img.getBoundingClientRect();
-
-                        dragStartOffsetRef.current = {
-                          x: e.clientX - rect.left,
-                          y: e.clientY - rect.top,
-                        };
-
-                        // Data passing
-                        e.dataTransfer.setData("componentName", component.cid);
-                      }}
-                      onDragEnd={onDragEnd}
+                      key={component.cid}
+                      title={component.description}
                       sx={{
-                        width: "100%",
-                        maxWidth: component.layout.width,
-                        height: "auto",
-                        objectFit: "contain",
-                        cursor: "grab",
+                        maxWidth: 120,
+                        p: 1,
+                        borderRadius: 2,
+                        border: "1px solid transparent",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                         transition: "all 0.2s ease",
+                        userSelect: "none",
 
-                        ...(isDragging && {
-                          opacity: 0.5,
-                          transform: "scale(0.95)",
-                          cursor: "grabbing",
-                        }),
-                      }}
-                    />
-
-                    {/* TEXT */}
-                    <Box
-                      sx={{
-                        mt: 1,
-                        textAlign: "center",
-                        fontSize: 13,
-                        width: "100%",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
+                        "&:hover": {
+                          borderColor: "primary.main",
+                          boxShadow: 3,
+                          backgroundColor: "action.hover",
+                        },
                       }}
                     >
-                      {component.name}
+                      {/* DRAGGABLE IMAGE */}
+                      <Box
+                        component="img"
+                        src={component.image}
+                        alt={component.name}
+                        draggable
+                        onDragStart={(e) => {
+                          setDragging(component.cid);
+
+                          const img = e.currentTarget as HTMLElement;
+                          const rect = img.getBoundingClientRect();
+
+                          dragStartOffsetRef.current = {
+                            x: e.clientX - rect.left,
+                            y: e.clientY - rect.top,
+                          };
+
+                          // Data passing
+                          e.dataTransfer.setData("componentName", component.cid);
+                        }}
+                        onDragEnd={onDragEnd}
+                        sx={{
+                          width: "100%",
+                          maxWidth: component.layout.width,
+                          height: "auto",
+                          objectFit: "contain",
+                          cursor: "grab",
+                          transition: "all 0.2s ease",
+
+                          ...(isDragging && {
+                            opacity: 0.5,
+                            transform: "scale(0.95)",
+                            cursor: "grabbing",
+                          }),
+                        }}
+                      />
+
+                      {/* TEXT */}
+                      <Box
+                        sx={{
+                          mt: 1,
+                          textAlign: "center",
+                          fontSize: 13,
+                          width: "100%",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {component.name}
+                      </Box>
                     </Box>
-                  </Box>
-                );
-              })}
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
+                  );
+                })}
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+        ))
       }
       {/* Graphic piece */}
       {

@@ -9,6 +9,42 @@ export enum ENativeComponentRole {
   SCREEN = 4,
 }
 
+export enum EComponentTag {
+  LAYOUT = "Layout",
+  INPUT = "Input",
+  GRAPHIC_PIECE = "Graphic Piece",
+  OTHER = "Other",
+}
+
+export interface IComponentTagInfo {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export const COMPONENT_TAG_INFO_MAP: Record<EComponentTag, IComponentTagInfo> = {
+  [EComponentTag.LAYOUT]: {
+    id: "layout",
+    name: "Layout",
+    description: ""
+  },
+  [EComponentTag.INPUT]: {
+    id: "input",
+    name: "Input",
+    description: ""
+  },
+  [EComponentTag.GRAPHIC_PIECE]: {
+    id: "graphic_piece",
+    name: "Graphic piece",
+    description: ""
+  },
+  [EComponentTag.OTHER]: {
+    id: "other",
+    name: "Other",
+    description: ""
+  }
+} as const;
+
 export interface ILayoutBounds {
   x: number;
   y: number;
@@ -60,11 +96,7 @@ export interface INativeComponent<Props = unknown> {
   image: string; // Url of review image
   element: (props?: Props) => JSX.Element; // Render element
   role: ENativeComponentRole;
-}
-
-export enum ETsComponentCommonTag {
-  NATIVE = "native",
-  PIECE = "piece",
+  tag: EComponentTag;
 }
 
 export interface IGraphicComponentStateData {

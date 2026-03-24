@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CTsComponentManager,
+  EComponentTag,
   ENativeComponentRole,
   INativeComponent,
 } from "../../manager/component-manager";
@@ -24,5 +25,6 @@ export const tsScreenComponent: INativeComponent<any> = {
   },
   element: TsContainer,
   role: ENativeComponentRole.SCREEN,
+  tag: EComponentTag.LAYOUT
 };
 CTsComponentManager.instance.registerNativeComponent(tsScreenComponent);

@@ -14,6 +14,8 @@ export default function GraphicEditorMenuContainer() {
     <Stack
       sx={{
         width: "fit-content",
+        height: "100%",
+        overflowY: "auto",
         position: "absolute",
         top: 0,
         bottom: 0,

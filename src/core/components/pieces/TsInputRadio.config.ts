@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CTsComponentManager,
+  EComponentTag,
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
@@ -64,5 +65,6 @@ export const tsInputRadioComponent: INativeComponent<any> = {
     minHeight: 20,
   },
   role: ENativeComponentRole.ELEMENT,
+  tag: EComponentTag.INPUT
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputRadioComponent);

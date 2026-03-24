@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CTsComponentManager,
+  EComponentTag,
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
@@ -45,5 +46,6 @@ export const tsInputCheckboxComponent: INativeComponent<any> = {
     minHeight: 20,
   },
   role: ENativeComponentRole.ELEMENT,
+  tag: EComponentTag.INPUT
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputCheckboxComponent);
