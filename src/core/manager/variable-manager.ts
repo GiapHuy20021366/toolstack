@@ -6,6 +6,7 @@ export interface ISetValueOptions {
 
 export const TsVariableManagerEvent = {
   SET_VALUE_ANY: "@common/setValue",
+  INNER_SET_VALUE_ANY: "@common/inner/setValue",
   SET_VALUE_KEY: (key: string) => `@common/setValue/${key}`,
 } as const;
 
@@ -21,12 +22,12 @@ export interface ISetValueEventData<T = unknown> {
  * A class to manage key-value
  */
 export class CTsVariableManager extends EventEmitter {
-  protected keyValueMap: Map<string, unknown>;
+  protected _keyValueMap: Map<string, unknown>;
   protected updateCountMap: Map<string, number>;
 
   constructor() {
     super();
-    this.keyValueMap = new Map();
+    this._keyValueMap = new Map();
     this.updateCountMap = new Map();
   }
 
@@ -49,19 +50,25 @@ export class CTsVariableManager extends EventEmitter {
     }
     this.keyValueMap.set(key, value);
     const newCount = this.increaseUpdateCount(key);
+
+    // Emit event
+    const eventData: ISetValueEventData = {
+      count: newCount,
+      key: key,
+      oldValue: oldValue,
+      newValue: value,
+      options: options,
+    };
+    // Event to component
     if (options?.silent !== false) {
-      const eventData: ISetValueEventData = {
-        count: newCount,
-        key: key,
-        oldValue: oldValue,
-        newValue: value,
-        options: options,
-      };
       // Emit to any
       this.emit(TsVariableManagerEvent.SET_VALUE_ANY, eventData, this);
       // Emit specific by key
       this.emit(TsVariableManagerEvent.SET_VALUE_KEY(key), eventData, this);
     }
+
+    // Inner event
+    this.emit(TsVariableManagerEvent.INNER_SET_VALUE_ANY, eventData, this);
     return newCount;
   }
 
@@ -80,5 +87,13 @@ export class CTsVariableManager extends EventEmitter {
     const count = (this.updateCountMap.get(key) || 0) + 1;
     this.updateCountMap.set(key, count);
     return count;
+  }
+
+  get keyValueMap() {
+    return this._keyValueMap;
+  }
+
+  set keyValueMap(value: Map<string, unknown>) {
+    this._keyValueMap = value;
   }
 }

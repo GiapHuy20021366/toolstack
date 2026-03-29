@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CSSProperties } from "react";
 import { ETsVersion } from "./version-manager";
 import EventEmitter from "eventemitter3";
 
@@ -97,6 +98,10 @@ export interface INativeComponent<Props = unknown> {
   element: (props?: Props) => JSX.Element; // Render element
   role: ENativeComponentRole;
   tag: EComponentTag;
+
+  rndBehaviors?: {
+    disableTransform?: boolean;//Default false
+  }
 }
 
 export interface IGraphicComponentStateData {
@@ -123,6 +128,7 @@ export interface IGraphicComponentData {
 
   visible: boolean;
   classes: string;
+  style?: CSSProperties
 }
 
 /**
@@ -176,7 +182,7 @@ export class CTsComponentManager extends EventEmitter {
     return "other";
   }
 
-  public removeGraphic(cid: string) {
+  public removeGraphicComponent(cid: string) {
     const component = this.graphicComponentMap.get(cid);
     if (component != null) {
       this.graphicComponentMap.delete(cid);

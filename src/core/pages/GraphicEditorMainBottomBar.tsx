@@ -51,7 +51,7 @@ export default function GraphicEditorMainBottomBar() {
         <input
           type="number"
           min={20}
-          max={100}
+          max={200}
           step={1}
           value={scale}
           onChange={(e) => setScale(+e.target.value)}

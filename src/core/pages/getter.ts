@@ -185,7 +185,7 @@ export const ACCESSORS = (stateManager: CTsStateManager) => ({
               value,
             );
           },
-          dict: () => {},
+          dict: () => { },
         },
         in: {
           get: () => {
@@ -384,5 +384,19 @@ export const ACCESSORS = (stateManager: CTsStateManager) => ({
         },
       },
     },
+
+    mode: {
+      get: () => {
+        return stateManager.getValue<string>(
+          makeWorkspaceKey("mode"),
+        );
+      },
+      set: (value: string) => {
+        return stateManager.setValue(
+          makeWorkspaceKey("mode"),
+          value,
+        );
+      },
+    }
   },
 });

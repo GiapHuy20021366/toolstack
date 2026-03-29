@@ -2,6 +2,7 @@
 import get from "lodash/get";
 import useGraphicStateValue from "../../hooks/editor/state/useGraphicStateValue";
 import useGraphicDataClasses from "../../hooks/editor/component/useGraphicDataClasses";
+import useGraphicDataStyle from "../../hooks/editor/component/useGraphicDataStyle";
 
 interface IProps {
   cid: string;
@@ -34,12 +35,14 @@ export default function TsSelect({ cid }: IProps) {
   const [textKey] = useGraphicStateValue(cid, "text-key", "$$option");
   const [options] = useGraphicStateValue<unknown[]>(cid, "options", []);
   const { classes } = useGraphicDataClasses(cid);
+  const { style } = useGraphicDataStyle(cid);
 
   return (
     <select
       style={{
         width: "100%",
         height: "100%",
+        ...style
       }}
       className={classes}
       value={JSON.stringify(value)}

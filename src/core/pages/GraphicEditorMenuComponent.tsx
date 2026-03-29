@@ -1,9 +1,10 @@
-import { ExpandMore } from "@mui/icons-material";
+import { DeleteOutline, ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
+  IconButton,
   Stack,
   Typography,
 } from "@mui/material";
@@ -15,10 +16,11 @@ import { getUID } from "../utils/uid-util";
 import useGraphicComponents from "./useGraphicComponents";
 import { cloneGraphicComponent } from "./data";
 import useWorkspaceDragOverComponent from "../hooks/editor/workspace/useWorkspaceDragOverComponent";
+import { getRelativeMousePositionByClient } from "./gui-helper";
 
 export default function GraphicEditorMenuComponent() {
   const { addGraphic } = useGraphicEditorContext();
-  const { nativeComponentMap, graphicComponents } = useGraphicComponents();
+  const { nativeComponentMap, graphicComponents, deleteGraphicComponent } = useGraphicComponents();
   const { dragoverCid, setDragoverCid } = useWorkspaceDragOverComponent();
 
   const [dragging, setDragging] = useState<string | null>(null);
@@ -55,13 +57,12 @@ export default function GraphicEditorMenuComponent() {
         const cid = container.getAttribute("container-cid");
         setDragoverCid(cid ?? "");
 
+        const clientX = e.clientX - dragStartOffsetRef.current.x;
+        const clientY = e.clientY - dragStartOffsetRef.current.y;
+        const transformed = getRelativeMousePositionByClient(clientX, clientY, container);
         dragFinalOffsetRef.current = {
-          x: Math.floor(
-            e.clientX - containerBound.x - dragStartOffsetRef.current.x,
-          ),
-          y: Math.floor(
-            e.clientY - containerBound.y - dragStartOffsetRef.current.y,
-          ),
+          x: Math.floor(transformed.x),
+          y: Math.floor(transformed.y),
         };
       } else {
         setDragoverCid("");
@@ -147,7 +148,7 @@ export default function GraphicEditorMenuComponent() {
                       key={component.cid}
                       title={component.description}
                       sx={{
-                        maxWidth: 120,
+                        maxWidth: 80,
                         p: 1,
                         borderRadius: 2,
                         border: "1px solid transparent",
@@ -239,7 +240,7 @@ export default function GraphicEditorMenuComponent() {
                     key={component.cid}
                     title={component.description}
                     sx={{
-                      maxWidth: 120,
+                      maxWidth: 100,
                       p: 1,
                       borderRadius: 2,
                       border: "1px solid transparent",
@@ -248,14 +249,28 @@ export default function GraphicEditorMenuComponent() {
                       alignItems: "center",
                       transition: "all 0.2s ease",
                       userSelect: "none",
+                      position: "relative",
+
+                      ".utils-wrapper": {
+                        display: "none"
+                      },
 
                       "&:hover": {
                         borderColor: "primary.main",
                         boxShadow: 3,
                         backgroundColor: "action.hover",
+
+                        ".utils-wrapper": {
+                          display: "block"
+                        }
                       },
                     }}
                   >
+                    <Box sx={{ position: "absolute", top: 0, right: 0 }} className="utils-wrapper">
+                      <IconButton color="error" onClick={() => deleteGraphicComponent(component.cid)}>
+                        <DeleteOutline />
+                      </IconButton>
+                    </Box>
                     {/* DRAGGABLE IMAGE */}
                     <Box
                       component="img"
@@ -304,7 +319,7 @@ export default function GraphicEditorMenuComponent() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {component.name}
+                      {component.name || "No name"}
                     </Box>
                   </Box>
                 );

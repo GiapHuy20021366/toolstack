@@ -6,10 +6,19 @@ import useWorkspaceRightBar from "../hooks/editor/workspace/useWorkspaceRightBar
 import useWorkspaceLeftBar from "../hooks/editor/workspace/useWorkspaceLeftBar";
 import GraphicEditorMainBottomBar from "./GraphicEditorMainBottomBar";
 import GraphicEditorMainGraphicArea from "./GraphicEditorMainGraphicArea";
+import useWorkspaceMode from "../hooks/editor/workspace/useWorkspaceMode";
+import { EGraphicEditorWorkspaceMode } from "./data";
 
 export default function GraphicEditorMain() {
   const { open: rightBarOpen } = useWorkspaceRightBar();
   const { open: leftBarOpen } = useWorkspaceLeftBar();
+  const { mode } = useWorkspaceMode();
+
+  const containerClassName = [
+    "graphic-main",
+    (mode === EGraphicEditorWorkspaceMode.EDIT && "edit-mode") || "",
+    (mode === EGraphicEditorWorkspaceMode.VIEW && "view-mode") || "",
+  ].join(" ");
 
   return (
     <Stack
@@ -20,6 +29,7 @@ export default function GraphicEditorMain() {
         boxSizing: "border-box",
         overflow: "hidden",
       }}
+      className={containerClassName}
     >
       {/* Top Bar */}
       <Stack direction={"row"}>

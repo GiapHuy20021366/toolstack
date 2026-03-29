@@ -163,10 +163,10 @@ export default function GraphicEditorContextProvider({
       captureElement(`#${cid}`).then((base64) => {
         if (base64) {
           const component: IGraphicComponent = {
-            cid: data.cid,
+            cid: getUID(),
             data: data,
             description: "",
-            name: getUID(),
+            name: data.name || "",
             time: Date.now(),
             image: base64,
           };
@@ -176,6 +176,48 @@ export default function GraphicEditorContextProvider({
     },
     [stateManager],
   );
+
+  /**
+   * Bring component far to user
+   */
+  const bringComponentToBack = useCallback((cid: string) => {
+    const ACC = ACCESSORS(stateManager);
+    const parent = ACC.component(cid).data.parent.get();
+    if (parent != null) {
+      const parentChildrenAcc = ACC.component(parent).data.children;
+      const parentChildren = parentChildrenAcc.get();
+      if (parentChildren != null) {
+        const idx = parentChildren.indexOf(cid);
+        if (idx > 0) {
+          const newChildren = [...parentChildren];
+          newChildren[idx] = parentChildren[idx - 1];
+          newChildren[idx - 1] = parentChildren[idx];
+          parentChildrenAcc.set(newChildren);
+        }
+      }
+    }
+  }, [stateManager]);
+
+  /**
+   * Bring component close to user
+   */
+  const bringComponentToFront = useCallback((cid: string) => {
+    const ACC = ACCESSORS(stateManager);
+    const parent = ACC.component(cid).data.parent.get();
+    if (parent != null) {
+      const parentChildrenAcc = ACC.component(parent).data.children;
+      const parentChildren = parentChildrenAcc.get();
+      if (parentChildren != null) {
+        const idx = parentChildren.indexOf(cid);
+        if (idx < parentChildren.length - 1) {
+          const newChildren = [...parentChildren];
+          newChildren[idx] = parentChildren[idx + 1];
+          newChildren[idx + 1] = parentChildren[idx];
+          parentChildrenAcc.set(newChildren);
+        }
+      }
+    }
+  }, [stateManager]);
 
   return (
     <GraphicEditorContext.Provider
@@ -187,6 +229,8 @@ export default function GraphicEditorContextProvider({
         addGraphic: addGraphic,
         deleteGraphic: deleteGraphic,
         exportGraphicPiece: exportGraphicPiece,
+        bringComponentToFront: bringComponentToFront,
+        bringComponentToBack: bringComponentToBack,
       }}
     >
       {isReady && children}

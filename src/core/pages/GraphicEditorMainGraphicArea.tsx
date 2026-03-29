@@ -3,6 +3,7 @@ import useGraphicDataRoot from "../hooks/editor/component/useGraphicDataRoot";
 import useGraphicEditorContext from "./useGraphicEditorContext";
 import GraphicRenderer from "./GraphicRenderer";
 import useWorkspaceLayout from "../hooks/editor/workspace/useWorkspaceLayout";
+import useWorkspaceClipboardOperations from "../hooks/editor/workspace/useWorkspaceClipboardOperations";
 
 export default function GraphicEditorMainGraphicArea() {
   const { cid } = useGraphicEditorContext();
@@ -11,6 +12,9 @@ export default function GraphicEditorMainGraphicArea() {
 
   const realScale = scale / 100;
 
+  // Copy, paste, cut operation
+  useWorkspaceClipboardOperations("graphic-area");
+
   return (
     <Box
       className="scroll-bar"
@@ -18,11 +22,10 @@ export default function GraphicEditorMainGraphicArea() {
         maxWidth: "100%",
         maxHeight: "100%",
         height: "100%",
-        outline: "1px solid red",
         position: "relative",
         overflow: "auto",
       }}
-    >
+      >
       {/* Wrapper:  layout + scrollbar */}
       <Box
         sx={{
@@ -30,17 +33,17 @@ export default function GraphicEditorMainGraphicArea() {
           height: height * realScale,
           position: "relative",
         }}
-      >
+        >
         {/* Inner: scale visual */}
         <Box
           id="graphic-area"
+          tabIndex={0}
           container-cid={!hasData ? cid : undefined}
           sx={{
             width: width,
             height: height,
             transform: `scale(${realScale})`,
             transformOrigin: "top left",
-            outline: "1px solid green",
           }}
         >
           <GraphicRenderer cid={cid} />

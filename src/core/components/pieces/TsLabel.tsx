@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import useGraphicStateValue from "../../hooks/editor/state/useGraphicStateValue";
 import useGraphicDataClasses from "../../hooks/editor/component/useGraphicDataClasses";
+import useWorkspaceMode from "../../hooks/editor/workspace/useWorkspaceMode";
+import { EGraphicEditorWorkspaceMode } from "../../pages/data";
+import useGraphicDataStyle from "../../hooks/editor/component/useGraphicDataStyle";
 
 interface IProps {
   cid: string;
@@ -11,8 +14,12 @@ export default function TsLabel({ cid }: IProps) {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { classes } = useGraphicDataClasses(cid);
+  const { style } = useGraphicDataStyle(cid);
+  const { mode } = useWorkspaceMode();
 
-  // auto focus khi vào edit mode
+  const isEditMode = mode === EGraphicEditorWorkspaceMode.EDIT;
+
+  // auto focus
   useEffect(() => {
     if (editing) {
       inputRef.current?.focus();
@@ -20,7 +27,7 @@ export default function TsLabel({ cid }: IProps) {
     }
   }, [editing]);
 
-  if (editing) {
+  if (isEditMode && editing) {
     return (
       <input
         ref={inputRef}
@@ -48,9 +55,14 @@ export default function TsLabel({ cid }: IProps) {
         width: "100%",
         height: "100%",
         cursor: "text",
+        ...style
       }}
       className={classes}
-      onClick={() => setEditing(true)}
+      onClick={() => {
+        if (isEditMode) {
+          setEditing(true)
+        }
+      }}
     >
       {label || "Label"}
     </span>

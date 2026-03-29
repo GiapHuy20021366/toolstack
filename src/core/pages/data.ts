@@ -247,3 +247,8 @@ export const SCREEN_RESOLUTIONS: IGraphicScreenResolution[] = [
     name: "Custom",
   },
 ] as const;
+
+export enum EGraphicEditorWorkspaceMode {
+  VIEW = "view",
+  EDIT = "edit"
+}

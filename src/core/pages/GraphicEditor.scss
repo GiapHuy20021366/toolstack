@@ -1,46 +1,86 @@
-.graphic-component {
-    box-sizing: border-box;
-    transition: box-shadow 0.15s ease, border 0.15s ease;
-    position: "absolute";
+.graphic-main {
+    .graphic-component {
+        .component-utils {
+            display: none;
+        }
 
-    &.container {
-        outline: 1px solid #999;
-        background: #f5f5f5;
+        .component-layout {
+            display: none;
+        }
+
+        :last-child {
+            display: none;
+        }
+
+        // Trick: Disable transform
+        &.disable-transform {
+            transform: none !important;
+        }
     }
 
-    &.selected {
-        outline: 1px solid #1976d2;
-        z-index: 10;
+
+    &.edit-mode {
+        .graphic-component {
+            box-sizing: border-box;
+            transition: box-shadow 0.15s ease, border 0.15s ease;
+            position: "absolute";
+
+            &.container {
+                outline: 1px solid #999;
+                background: #f5f5f5;
+            }
+
+            &.selected {
+                outline: 1px solid #1976d2;
+                z-index: 10;
+            }
+
+            &:hover:not(:has(.graphic-component:hover)) {
+                outline: 1px solid #1976d2;
+            }
+
+            &.drag-over {
+                outline: 1px dashed #1976d2;
+            }
+
+            &.selected {
+
+                // Utils
+                >.component-utils {
+                    display: flex;
+                }
+
+                // Layout coordinate
+                >.component-layout {
+                    display: flex;
+                }
+            }
+
+            // Resizer
+            :last-child {
+                display: block;
+            }
+        }
     }
 
-    &:hover {
-        outline: 1px solid #1976d2;
+    .scrollbar {
+        overflow: auto;
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
     }
 
-    &.drag-over {
-        border: 1px dashed #1976d2;
+    *::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
     }
 
-}
+    *::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+    }
 
-.scrollbar {
-    overflow: auto;
-
-    /* Firefox */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
-}
-
-*::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-*::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-}
-
-*::-webkit-scrollbar-track {
-    background: transparent;
+    *::-webkit-scrollbar-track {
+        background: transparent;
+    }
 }

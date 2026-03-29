@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, TextField, Typography, IconButton } from "@mui/material";
+import { Box, Button, TextField, Typography, IconButton, Stack } from "@mui/material";
 import { GraphicSelectDialog } from "./GraphicSelectDialog";
 import useGraphicEditorContext from "./useGraphicEditorContext";
 import {
@@ -9,12 +9,15 @@ import {
 import useWorkspaceName from "../hooks/editor/workspace/useWorkspaceName";
 import useWorkspaceLeftBar from "../hooks/editor/workspace/useWorkspaceLeftBar";
 import useWorkspaceRightBar from "../hooks/editor/workspace/useWorkspaceRightBar";
+import { EGraphicEditorWorkspaceMode } from "./data";
+import useWorkspaceMode from "../hooks/editor/workspace/useWorkspaceMode";
 
 export default function GraphicEditorMainTopBar() {
   const { workspaceName, setWorkspaceName } = useWorkspaceName();
   const { open: rightBarOpen, setOpen: setRightBarOpen } =
     useWorkspaceRightBar();
   const { open: leftBarOpen, setOpen: setLeftBarOpen } = useWorkspaceLeftBar();
+  const { mode, setMode } = useWorkspaceMode();
   const { save, load } = useGraphicEditorContext();
 
   const [editing, setEditing] = useState(false);
@@ -120,7 +123,16 @@ export default function GraphicEditorMainTopBar() {
       </Box>
 
       {/* RIGHT */}
-      <Box sx={{ justifySelf: "end" }}>
+      <Stack direction={"row"} sx={{ justifySelf: "end", alignItems: "center" }}>
+        {/* Workspace mode */}
+        <Box>
+          <label htmlFor="select-mode">Mode: </label>
+          <select name="select-mode" id="select-mode" value={mode} onChange={(e) => setMode(e.target.value as EGraphicEditorWorkspaceMode)}>
+            <option value={EGraphicEditorWorkspaceMode.EDIT}>Edit</option>
+            <option value={EGraphicEditorWorkspaceMode.VIEW}>View</option>
+          </select>
+        </Box>
+
         <IconButton size="small" onClick={() => setRightBarOpen(!rightBarOpen)}>
           {rightBarOpen ? (
             <KeyboardDoubleArrowRight />
@@ -128,7 +140,7 @@ export default function GraphicEditorMainTopBar() {
             <KeyboardDoubleArrowLeft />
           )}
         </IconButton>
-      </Box>
+      </Stack>
 
       {/* Dialogs */}
       <GraphicSelectDialog

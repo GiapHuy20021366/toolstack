@@ -1,4 +1,5 @@
 import useGraphicDataClasses from "../../hooks/editor/component/useGraphicDataClasses";
+import useGraphicDataStyle from "../../hooks/editor/component/useGraphicDataStyle";
 import useGraphicStateValue from "../../hooks/editor/state/useGraphicStateValue";
 
 interface IProps {
@@ -8,6 +9,7 @@ export default function TsInputRadio({ cid }: IProps) {
   const [value, setValue] = useGraphicStateValue(cid, "value", true);
   const [name] = useGraphicStateValue(cid, "name", "");
   const { classes } = useGraphicDataClasses(cid);
+  const { style } = useGraphicDataStyle(cid);
 
   return (
     <input
@@ -16,6 +18,7 @@ export default function TsInputRadio({ cid }: IProps) {
         height: "100%",
         boxSizing: "border-box",
         margin: 0,
+        ...style
       }}
       name={name}
       className={classes}

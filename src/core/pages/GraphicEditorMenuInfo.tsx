@@ -5,6 +5,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Button,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 
@@ -12,6 +13,7 @@ import useGraphicDataName from "../hooks/editor/component/useGraphicDataName";
 import useWorkspaceSelectedComponent from "../hooks/editor/workspace/useWorkspaceSelectedComponent";
 import useGraphicData from "../hooks/editor/component/useGraphicData";
 import useGraphicDataDescription from "../hooks/editor/component/useGraphicDataDescription";
+import useGraphicEditorContext from "./useGraphicEditorContext";
 
 export default function GraphicEditorMenuInfo() {
   const { selectedCid } = useWorkspaceSelectedComponent();
@@ -19,6 +21,7 @@ export default function GraphicEditorMenuInfo() {
   const { name, setName } = useGraphicDataName(selectedCid);
   const { description, setDescription } =
     useGraphicDataDescription(selectedCid);
+  const { deleteGraphic, exportGraphicPiece, bringComponentToBack, bringComponentToFront } = useGraphicEditorContext();
 
   if (!selectedCid) {
     return (
@@ -90,6 +93,62 @@ export default function GraphicEditorMenuInfo() {
           </Stack>
         </AccordionDetails>
       </Accordion>
+
+      <Stack direction={"column"} gap={0.5} mt={1}>
+        {
+          selectedCid && (
+            <>
+              <Stack direction={"row"} gap={1}>
+                <Button variant="outlined" size="small"
+                  sx={{
+                    textTransform: 'none',
+                    fontSize: '12px',
+                    padding: '4px 10px',
+                    width: 150
+                  }}
+                  onClick={() => { exportGraphicPiece(selectedCid) }}
+                >
+                  Export graphic piece
+                </Button>
+                <Button variant="outlined" size="small" color="error"
+                  sx={{
+                    textTransform: 'none',
+                    fontSize: '12px',
+                    padding: '4px 10px',
+                    width: 150
+                  }}
+                  onClick={() => { deleteGraphic(selectedCid) }}
+                >Delete element
+                </Button>
+              </Stack>
+              <Stack direction={"row"} gap={1}>
+                <Button variant="outlined" size="small"
+                  sx={{
+                    textTransform: 'none',
+                    fontSize: '12px',
+                    padding: '4px 10px',
+                    width: 150
+                  }}
+                  onClick={() => { bringComponentToBack(selectedCid) }}
+                >
+                  Bring to back
+                </Button>
+                <Button variant="outlined" size="small"
+                  sx={{
+                    textTransform: 'none',
+                    fontSize: '12px',
+                    padding: '4px 10px',
+                    width: 150
+                  }}
+                  onClick={() => { bringComponentToFront(selectedCid) }}
+                >
+                  Bring to front
+                </Button>
+              </Stack>
+            </>
+          )
+        }
+      </Stack>
     </Stack>
   );
 }

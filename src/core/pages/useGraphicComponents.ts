@@ -1,5 +1,5 @@
 import { COMPONENT_TAG_INFO_MAP, IComponentTagInfo } from './../manager/component-manager';
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   CTsComponentManager,
   IGraphicComponent,
@@ -38,9 +38,14 @@ export default function useGraphicComponents() {
     };
   }, []);
 
+  const deleteGraphicComponent = useCallback((cid: string) => {
+    CTsComponentManager.instance.removeGraphicComponent(cid);
+  }, [])
+
   return {
     nativeComponents: nativeComponents,
     graphicComponents: graphicComponents,
-    nativeComponentMap: nativeComponentMap
+    nativeComponentMap: nativeComponentMap,
+    deleteGraphicComponent: deleteGraphicComponent
   };
 }

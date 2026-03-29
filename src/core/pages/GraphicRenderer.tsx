@@ -1,10 +1,10 @@
 import { Rnd } from "react-rnd";
 import { Stack } from "@mui/material";
 import {
+  ArrowDownward,
+  ArrowUpward,
   DeleteOutlined,
-  ExitToApp,
   OpenWithOutlined,
-  SettingsSuggestOutlined,
 } from "@mui/icons-material";
 import useGraphicEditorContext from "./useGraphicEditorContext";
 import React, { useMemo } from "react";
@@ -24,15 +24,16 @@ import useGraphicDataName from "../hooks/editor/component/useGraphicDataName";
 interface IProps {
   cid: string;
   inLayer?: boolean;
+  disableTransform?: boolean;
 }
 
-export default function GraphicRenderer({ cid, inLayer }: IProps) {
+export default function GraphicRenderer({ cid, inLayer, disableTransform }: IProps) {
   const { layout, setLayout } = useGraphicDataLayout(cid);
   const { children } = useGraphicDataChildren(cid);
   const { nativeCid } = useGraphicDataNativeCid(cid);
   const { selectedCid, setSelectedCid } = useWorkspaceSelectedComponent();
   const { dragoverCid } = useWorkspaceDragOverComponent();
-  const { deleteGraphic, exportGraphicPiece } = useGraphicEditorContext();
+  const { deleteGraphic, bringComponentToBack, bringComponentToFront } = useGraphicEditorContext();
   const { visible } = useGraphicDataVisible(cid);
   const { name } = useGraphicDataName(cid);
   const { isVisibleBySelectedLayer, selectedLayer } = useSelectedLayer();
@@ -70,6 +71,7 @@ export default function GraphicRenderer({ cid, inLayer }: IProps) {
     isContainer && "container",
     isLayer && "layer",
     isScreen && "screen",
+    disableTransform && "disable-transform"
   ]
     .filter(Boolean)
     .join(" ");
@@ -91,12 +93,22 @@ export default function GraphicRenderer({ cid, inLayer }: IProps) {
               : undefined
           }
           position={{
-            x: layout.x,
-            y: layout.y,
+            x: !disableTransform ? layout.x : 0,
+            y: !disableTransform ? layout.y : 0,
           }}
           size={{
             width: layout.width,
             height: layout.height,
+          }}
+          enableResizing={{
+            top: !disableTransform,
+            right: true,
+            bottom: true,
+            left: !disableTransform,
+            topRight: !disableTransform,
+            bottomRight: true,
+            bottomLeft: !disableTransform,
+            topLeft: !disableTransform,
           }}
           minWidth={layout.minWidth}
           minHeight={layout.minHeight}
@@ -124,41 +136,47 @@ export default function GraphicRenderer({ cid, inLayer }: IProps) {
             e.stopPropagation();
             setSelectedCid(cid);
           }}
-          // bounds="parent"
+          bounds="parent"
           className={className}
           id={cid}
           dragHandleClassName="nested-header"
           cancel=".inner-element"
+          disableDragging={disableTransform}
+          style={{
+            position: disableTransform ? "relative" : "absolute",
+            display: disableTransform ? "block" : "inline-flex",
+          }}
         >
           {/* Utils */}
-          <Stack
-            direction={"row"}
-            sx={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              transform: "translateY(calc(-100% - 4px))",
-              border: "1px solid black",
-              boxSizing: "border-box",
-              display: isSelected ? "block" : "none",
-              px: 1,
-              minWidth: 115,
-            }}
-            gap={1}
-          >
-            <DeleteOutlined color="error" onClick={() => deleteGraphic(cid)} />
-            <ExitToApp
-              titleAccess="Export to a graphic piece"
-              onClick={() => exportGraphicPiece(cid)}
-            />
-            <SettingsSuggestOutlined />
-            <OpenWithOutlined
-              className="nested-header"
+          {
+            <Stack
+              direction={"row"}
               sx={{
-                cursor: "all-scroll",
+                position: "absolute",
+                top: 0,
+                right: 0,
+                transform: "translateY(calc(-100% - 4px))",
+                border: "1px solid black",
+                boxSizing: "border-box",
+                px: 1,
+                minWidth: "fit-content",
               }}
-            />
-          </Stack>
+              gap={0}
+              className="component-utils"
+            >
+              <ArrowUpward onClick={() => bringComponentToFront(cid)} />
+              <ArrowDownward onClick={() => bringComponentToBack(cid)} />
+              <DeleteOutlined color="error" onClick={() => deleteGraphic(cid)} />
+              {
+                !disableTransform && <OpenWithOutlined
+                  className="nested-header"
+                  sx={{
+                    cursor: "all-scroll",
+                  }}
+                />
+              }
+            </Stack>
+          }
 
           {/* Location info */}
           {
@@ -167,17 +185,17 @@ export default function GraphicRenderer({ cid, inLayer }: IProps) {
               sx={{
                 position: "absolute",
                 bottom: 0,
-                right: 0,
+                left: 0,
                 transform: "translateY(calc(100% + 4px))",
                 border: "1px solid black",
                 boxSizing: "border-box",
-                display: isSelected ? "block" : "none",
                 px: 1,
                 minWidth: 90,
               }}
               gap={1}
+              className="component-layout"
             >
-              [{layout.x},{layout.y},{layout.width},{layout.height}]
+              [{disableTransform ? "__" : layout.x},{disableTransform ? "__" : layout.y},{layout.width},{layout.height}]
             </Stack>
           }
 
@@ -186,11 +204,12 @@ export default function GraphicRenderer({ cid, inLayer }: IProps) {
             React.createElement(nativeComponent?.element, {
               cid,
               children: (children ?? []).map((cid) => (
-                <GraphicRenderer key={cid} cid={cid} inLayer={inLayer} />
+                <GraphicRenderer key={cid} cid={cid} inLayer={inLayer} disableTransform={nativeComponent.rndBehaviors?.disableTransform} />
               )),
             })}
-        </Rnd>
-      )}
+        </Rnd >
+      )
+      }
     </>
   );
 }
