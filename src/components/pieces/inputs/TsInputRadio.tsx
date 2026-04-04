@@ -1,0 +1,32 @@
+import {
+  useGraphicDataClasses,
+  useGraphicDataStyle,
+  useGraphicStateValue
+} from "@hooks/editor";
+
+interface IProps {
+  cid: string;
+}
+export default function TsInputRadio({ cid }: IProps) {
+  const [value, setValue] = useGraphicStateValue(cid, "value", true);
+  const [name] = useGraphicStateValue(cid, "name", "");
+  const { classes } = useGraphicDataClasses(cid);
+  const { style } = useGraphicDataStyle(cid);
+
+  return (
+    <input
+      style={{
+        width: "100%",
+        height: "100%",
+        boxSizing: "border-box",
+        margin: 0,
+        ...style
+      }}
+      name={name}
+      className={classes}
+      type={"radio"}
+      checked={value}
+      onChange={(event) => setValue(event.target.checked)}
+    />
+  );
+}

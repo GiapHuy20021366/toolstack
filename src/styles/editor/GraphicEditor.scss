@@ -1,0 +1,165 @@
+.graphic-main {
+    .graphic-component {
+        .component-utils {
+            display: none;
+        }
+
+        .component-layout {
+            display: none;
+        }
+
+        >:last-child {
+            display: none;
+        }
+
+        // Trick: Disable transform
+        &.disable-transform {
+            transform: none !important;
+        }
+
+        &.hidden {
+            display: none !important;
+        }
+    }
+
+
+    &.edit-mode {
+        .graphic-component {
+            box-sizing: border-box;
+            transition: box-shadow 0.15s ease, border 0.15s ease;
+            position: "absolute";
+
+            &.container {
+                outline: 1px solid #999;
+                background: #f5f5f5;
+            }
+
+            &.selected {
+                outline: 1px solid #1976d2;
+                z-index: 10;
+            }
+
+            &:hover:not(:has(.graphic-component:hover)) {
+                outline: 1px solid #1976d2;
+            }
+
+            &.drag-over {
+                outline: 1px dashed #1976d2;
+            }
+
+            &.selected {
+
+                // Utils
+                >.component-utils {
+                    display: flex;
+                }
+
+                // Layout coordinate
+                >.component-layout {
+                    display: flex;
+                }
+            }
+
+            // Resizer
+            :last-child {
+                display: block;
+            }
+        }
+    }
+
+    .scrollbar {
+        overflow: auto;
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+    }
+
+    *::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
+.loading-outline::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+
+    background: conic-gradient(from 0deg,
+            transparent 0deg,
+            #1976d2 60deg,
+            transparent 120deg);
+
+    animation: spin 0.8s linear infinite;
+
+    transform-origin: center;
+    z-index: 1;
+}
+
+.loading-outline {
+    position: relative;
+}
+
+/* Layer tạo border animation */
+.loading-outline::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+
+    padding: 2px;
+    /* độ dày border */
+
+    background: linear-gradient(90deg,
+            transparent,
+            transparent,
+            #1976d2,
+            transparent,
+            transparent);
+
+    background-size: 300% 100%;
+    animation: border-run 1.2s linear infinite;
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+
+    mask-composite: exclude;
+
+    z-index: 1;
+}
+
+.loading-outline::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: white;
+    z-index: 2;
+}
+
+.loading-outline>* {
+    position: relative;
+    z-index: 3;
+}
+
+@keyframes border-run {
+    0% {
+        background-position: 0% 0;
+    }
+
+    100% {
+        background-position: 300% 0;
+    }
+}

@@ -1,1 +1,0 @@
-import "./common-class.css"

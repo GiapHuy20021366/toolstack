@@ -1,5 +1,7 @@
 import { ipcRenderer, contextBridge } from "electron";
-import { IElectronAPI } from "./electron-api";
+import "./api/electron-api-exposed";
+import "./api/graphic-components-store-api-exposed";
+import "./api/graphic-pieces-store-api-exposed";
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld("ipcRenderer", {
@@ -25,40 +27,3 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   // You can expose other APTs you need here.
   // ...
 });
-
-contextBridge.exposeInMainWorld("electron", {
-  typeSystem: {
-    clearTypes() {
-      return ipcRenderer.invoke("@electron/typeSystem/clearTypes");
-    },
-    isAssignable(typeA, typeB) {
-      return ipcRenderer.invoke(
-        "@electron/typeSystem/isAssignable",
-        typeA,
-        typeB,
-      );
-    },
-    isEqual(typeA, typeB) {
-      return ipcRenderer.invoke("@electron/typeSystem/isEqual", typeA, typeB);
-    },
-    listTypes() {
-      return ipcRenderer.invoke("@electron/typeSystem/listTypes");
-    },
-    registerType(type) {
-      return ipcRenderer.invoke("@electron/typeSystem/registerType", type);
-    },
-    removeType(name) {
-      return ipcRenderer.invoke("@electron/typeSystem/removeType", name);
-    },
-    validateType(text, native) {
-      return ipcRenderer.invoke(
-        "@electron/typeSystem/validateType",
-        text,
-        native,
-      );
-    },
-    getAllTypes() {
-      return ipcRenderer.invoke("@electron/typeSystem/getAllTypes");
-    },
-  },
-} as IElectronAPI);

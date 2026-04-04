@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, protocol } from "electron";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import fs from "fs";
 
 import { TypeEntry, TypeSystem } from "./utils/type-system";
+import "./ipc/graphic-components-store-ipc";
+import "./ipc/graphic-pieces-store-ipc";
+import { getAbsolutePath } from "./utils/image-saver";
 
 const require = createRequire(import.meta.url);
 const __filename = fileURLToPath(import.meta.url);
@@ -75,7 +79,27 @@ app.on("activate", () => {
   }
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  // Handle image:// protocol
+  protocol.handle("images", async (request) => {
+    try {
+      const relative = request.url.replace("images://", "");
+      if (relative.includes("..")) {
+        return new Response("Forbidden", { status: 403 });
+      }
+      const absolutePath = getAbsolutePath(relative);
+      const data = await fs.promises.readFile(absolutePath);
+      return new Response(data, {
+        headers: {
+          "Content-Type": "image/png",
+        },
+      });
+    } catch (err) {
+      return new Response("Not Found", { status: 404 });
+    }
+  });
+  createWindow();
+});
 
 // Electron APIs
 ipcMain.handle("@electron/typeSystem/clearTypes", async (_event) => {

@@ -24,4 +24,17 @@ export default defineConfig({
       renderer: process.env.NODE_ENV === "test" ? undefined : {},
     }),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+      "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@contexts": path.resolve(__dirname, "src/contexts"),
+      "@components": path.resolve(__dirname, "src/components"),
+      "@utils": path.resolve(__dirname, "src/utils"),
+      "@styles": path.resolve(__dirname, "src/styles"),
+      "@data": path.resolve(__dirname, "src/data"),
+      "@pages": path.resolve(__dirname, "src/pages"),
+      "@functions": path.resolve(__dirname, "src/functions"),
+    },
+  },
 });
