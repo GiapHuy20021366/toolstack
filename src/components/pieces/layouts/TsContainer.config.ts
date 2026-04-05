@@ -4,14 +4,16 @@ import {
   EComponentTag,
   ENativeComponentRole,
   INativeComponent,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import TsContainer from "./TsContainer";
+import { COMMON_GROUPS } from "../common-groups";
 
 export const tsContainerComponent: INativeComponent<any> = {
   cid: "TsContainer",
   name: "Container",
   description: "The container that contains every thing",
+  groups: COMMON_GROUPS,
   states: [],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
@@ -25,6 +27,6 @@ export const tsContainerComponent: INativeComponent<any> = {
   },
   element: TsContainer,
   role: ENativeComponentRole.CONTAINER,
-  tag: EComponentTag.LAYOUT
+  tag: EComponentTag.LAYOUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsContainerComponent);

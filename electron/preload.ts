@@ -2,6 +2,7 @@ import { ipcRenderer, contextBridge } from "electron";
 import "./api/electron-api-exposed";
 import "./api/graphic-components-store-api-exposed";
 import "./api/graphic-pieces-store-api-exposed";
+import "./api/application-store-api-exposed";
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld("ipcRenderer", {

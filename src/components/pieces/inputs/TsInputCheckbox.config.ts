@@ -5,13 +5,14 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import {
   TsInputCheckboxValueCheck,
   ITsInputCheckboxValueCheckProps,
 } from "@components/editors";
 import TsInputCheckbox from "./TsInputCheckbox";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputCheckboxValueCheckProps["options"],
@@ -20,6 +21,7 @@ const VALUE_STATE: INativeComponentState<
   name: "value",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: false,
@@ -33,6 +35,7 @@ export const tsInputCheckboxComponent: INativeComponent<any> = {
   cid: "TsInputCheckbox",
   name: "Checkbox",
   description: "The input checkbox element",
+  groups: COMMON_GROUPS,
   element: TsInputCheckbox,
   states: [VALUE_STATE],
   version: ETsVersion._0_0_0,
@@ -46,6 +49,6 @@ export const tsInputCheckboxComponent: INativeComponent<any> = {
     minHeight: 20,
   },
   role: ENativeComponentRole.ELEMENT,
-  tag: EComponentTag.INPUT
+  tag: EComponentTag.INPUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputCheckboxComponent);

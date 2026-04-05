@@ -12,10 +12,12 @@ export {
   type INativeComponent,
   type INativeComponentState,
   type INativeStateProps,
+  type INativeComponentGroup,
 } from "./component-manager";
 export {
   CTsFuncManager,
   EFuncStateParamType,
+  EFuncDefParamEditorType,
   getDefaultFuncStateValue,
   type FFuncExecutor,
   type IFuncDef,
@@ -25,6 +27,7 @@ export {
   type IFuncState,
   type IFuncStateParam,
   type IIFuncDefParam,
+  type IFunDefParamSelectOption,
 } from "./func-manager";
 export { GlobalStateHandler } from "./state/global-state-handler";
 export { IdentifyStateHandler } from "./state/identify-state-handler";

@@ -5,23 +5,24 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import {
   TsSelectValueEditor,
   ITsSelectValueEditorOption,
   ITsSelectValueEditorProps,
   TsInputTextAreaEditorLazy,
-  ITsInputTextAreaEditorLazyProps
+  ITsInputTextAreaEditorLazyProps,
 } from "@components/editors";
 import TsInputJson from "./TsInputJson";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 export enum EJsonInputType {
   STRING = "string",
   NUMBER = "number",
   ARRAY = "array",
   OBJECT = "object",
-  ANY = "any"
+  ANY = "any",
 }
 
 export const isValidInputValue = (value: string, type: EJsonInputType) => {
@@ -44,11 +45,10 @@ export const isValidInputValue = (value: string, type: EJsonInputType) => {
         return true;
       }
     }
-
   } catch (error) {
     return false;
   }
-}
+};
 
 export const JSON_TYPE_OPTIONS: ITsSelectValueEditorOption[] = [
   { text: "any", value: EJsonInputType.ANY },
@@ -65,13 +65,14 @@ const TYPE_STATE: INativeComponentState<
   name: "type",
   description: "",
   type: EJsonInputType.ANY,
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: EJsonInputType.ANY,
   editor: {
     element: TsSelectValueEditor,
     options: {
-      options: JSON_TYPE_OPTIONS
+      options: JSON_TYPE_OPTIONS,
     },
   },
 } as const;
@@ -83,6 +84,7 @@ const VALUE_STATE: INativeComponentState<
   name: "value",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: true,
   isStateOut: true,
   editable: false,
@@ -92,13 +94,14 @@ const VALUE_STATE: INativeComponentState<
     options: {},
   },
   encoder: JSON.stringify,
-  decoder: JSON.parse
+  decoder: JSON.parse,
 } as const;
 
 export const tsInputJsonComponent: INativeComponent<any> = {
   cid: "TsJsonInput",
   name: "Json Input",
   description: "The json input element",
+  groups: COMMON_GROUPS,
   element: TsInputJson,
   states: [TYPE_STATE, VALUE_STATE],
   version: ETsVersion._0_0_0,
@@ -112,6 +115,6 @@ export const tsInputJsonComponent: INativeComponent<any> = {
     minHeight: 30,
   },
   role: ENativeComponentRole.ELEMENT,
-  tag: EComponentTag.INPUT
+  tag: EComponentTag.INPUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputJsonComponent);

@@ -76,11 +76,18 @@ export interface INativeStateProps<IOptions> {
   options?: IOptions;
 }
 
+export interface INativeComponentGroup {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export interface INativeComponentState<
   IOptions = unknown,
   IProps = INativeStateProps<IOptions>,
 > {
   name: string;
+  group: string;
   type: string;
   description: string;
   defaultValue: any;
@@ -105,6 +112,7 @@ export interface INativeComponent<Props = unknown> {
   name: string; // Name (unique)
   description: string;
   version: EEditorGraphicVersion;
+  groups: INativeComponentGroup[];
   states: INativeComponentState<any>[]; //State definition
   layout: ILayoutBounds; // Default layout
   image: string; // Url of review image

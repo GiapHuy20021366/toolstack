@@ -15,3 +15,12 @@ import "./states/TsStateWatcher.config";
 
 import "./functions/TsFunction.config";
 import "./functions/TsGroupFunction.config";
+
+export {
+  ACTION_GROUP,
+  EVENT_GROUP,
+  OTHER_GROUP,
+  STATE_GROUP,
+  STYLE_GROUP,
+  COMMON_GROUPS,
+} from "./common-groups";

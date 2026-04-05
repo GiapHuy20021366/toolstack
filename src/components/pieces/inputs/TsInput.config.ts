@@ -5,16 +5,16 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import TsInput from "./TsInput";
 import {
   TsInputInputTypeSelector,
   ITsInputInputTypeSelectorProps,
   TsInputInputValueEditor,
-  ITsInputInputValueEditorProps
+  ITsInputInputValueEditorProps,
 } from "@components/editors";
-
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const TYPE_STATE: INativeComponentState<
   ITsInputInputTypeSelectorProps["options"],
@@ -23,6 +23,7 @@ const TYPE_STATE: INativeComponentState<
   name: "type",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: "text",
@@ -39,6 +40,7 @@ const VALUE_STATE: INativeComponentState<
   name: "value",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: true,
   isStateOut: true,
   defaultValue: "text",
@@ -52,6 +54,7 @@ export const tsInputComponent: INativeComponent<any> = {
   cid: "TsInput",
   name: "Input",
   description: "The input element",
+  groups: COMMON_GROUPS,
   element: TsInput,
   states: [TYPE_STATE, VALUE_STATE],
   version: ETsVersion._0_0_0,
@@ -65,6 +68,6 @@ export const tsInputComponent: INativeComponent<any> = {
     minHeight: 30,
   },
   role: ENativeComponentRole.ELEMENT,
-  tag: EComponentTag.INPUT
+  tag: EComponentTag.INPUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputComponent);

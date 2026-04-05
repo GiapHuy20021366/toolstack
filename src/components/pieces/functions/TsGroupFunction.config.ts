@@ -12,6 +12,7 @@ import {
   ITsInputCheckboxValueCheckProps,
   TsInputCheckboxValueCheck,
 } from "@components/editors";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const PARALLEL_STATE: INativeComponentState<
   ITsInputCheckboxValueCheckProps["options"],
@@ -20,6 +21,7 @@ const PARALLEL_STATE: INativeComponentState<
   name: "parallel",
   description: "",
   type: "boolean",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: false,
@@ -36,6 +38,7 @@ const SKIP_ERROR_STATE: INativeComponentState<
   name: "skip-error",
   description: "",
   type: "boolean",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: false,
@@ -49,6 +52,7 @@ export const tsGroupFunctionComponent: INativeComponent<any> = {
   cid: "TsGroupFunction",
   name: "GroupFunction",
   description: "The function component",
+  groups: COMMON_GROUPS,
   states: [PARALLEL_STATE, SKIP_ERROR_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",

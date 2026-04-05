@@ -5,7 +5,7 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import {
   TsInputInputValueEditor,
@@ -13,6 +13,7 @@ import {
 } from "@components/editors";
 import { ON_CLICK_EVENT } from "./events";
 import TsButton from "./TsButton";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputInputValueEditorProps["options"],
@@ -21,6 +22,7 @@ const VALUE_STATE: INativeComponentState<
   name: "value",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: true,
   isStateOut: true,
   defaultValue: "text",
@@ -37,6 +39,7 @@ const TEXT_STATE: INativeComponentState<
   name: "text",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: true,
   isStateOut: true,
   defaultValue: "text",
@@ -50,6 +53,7 @@ export const tsInputComponent: INativeComponent<any> = {
   cid: "TsButton",
   name: "Button",
   description: "The button element",
+  groups: COMMON_GROUPS,
   element: TsButton,
   states: [VALUE_STATE, TEXT_STATE, ON_CLICK_EVENT],
   version: ETsVersion._0_0_0,
@@ -63,6 +67,6 @@ export const tsInputComponent: INativeComponent<any> = {
     minHeight: 10,
   },
   role: ENativeComponentRole.ELEMENT,
-  tag: EComponentTag.INPUT
+  tag: EComponentTag.INPUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputComponent);

@@ -5,15 +5,16 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import {
   TsInputCheckboxValueCheck,
   ITsInputCheckboxValueCheckProps,
   TsInputTextEditorLazy,
-  ITsInputTextEditorLazyProps
+  ITsInputTextEditorLazyProps,
 } from "@components/editors";
 import TsInputRadio from "./TsInputRadio";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputCheckboxValueCheckProps["options"],
@@ -22,6 +23,7 @@ const VALUE_STATE: INativeComponentState<
   name: "value",
   description: "",
   type: "boolean",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   editable: false,
@@ -39,6 +41,7 @@ const NAME_STATE: INativeComponentState<
   name: "name",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: "text",
@@ -52,6 +55,7 @@ export const tsInputRadioComponent: INativeComponent<any> = {
   cid: "TsInputRadio",
   name: "Radio",
   description: "The input radio element",
+  groups: COMMON_GROUPS,
   element: TsInputRadio,
   states: [VALUE_STATE, NAME_STATE],
   version: ETsVersion._0_0_0,
@@ -65,6 +69,6 @@ export const tsInputRadioComponent: INativeComponent<any> = {
     minHeight: 20,
   },
   role: ENativeComponentRole.ELEMENT,
-  tag: EComponentTag.INPUT
+  tag: EComponentTag.INPUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsInputRadioComponent);

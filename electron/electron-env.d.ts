@@ -27,4 +27,5 @@ interface Window {
   electronAPI: import("./api/electron-api").IElectronAPI;
   graphicComponentsStoreAPI: import("./api/graphic-components-store-api").IGraphicComponentsStoreAPI;
   graphicPiecesStoreAPI: import("./api/graphic-pieces-store-api").IGraphicPiecesStoreAPI;
+  applicationStoreAPI: import("./api/application-store-api").IApplicationStoreAPI;
 }

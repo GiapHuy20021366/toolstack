@@ -1,6 +1,18 @@
 import EventEmitter from "eventemitter3";
 import { EditorStateManager } from "./state/editor-state-manager";
 
+export enum EFuncDefParamEditorType {
+  INPUT = "input",
+  SELECT = "select",
+  CHECKBOX = "checkbox",
+  FUNCTION = "function",
+}
+
+export interface IFunDefParamSelectOption {
+  label: string;
+  value: string;
+}
+
 /**
  * Func param definition
  */
@@ -12,6 +24,9 @@ export interface IIFuncDefParam {
   series?: boolean; // ...params
   defaultType?: EFuncStateParamType;
   defaultValue?: string;
+
+  elementType?: EFuncDefParamEditorType;
+  options?: IFunDefParamSelectOption[];
 }
 
 export interface IFuncExecutorContextScope {
@@ -47,10 +62,12 @@ export interface IFuncDef {
 }
 
 export enum EFuncStateParamType {
+  DEFAULT = "default",
   JSON = "json",
   STATE_KEY = "state-key",
   STATE_VALUE = "state-value",
   SCOPE = "scope",
+  TEXT = "text",
 }
 
 /**

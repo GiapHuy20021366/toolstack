@@ -5,10 +5,16 @@ import {
   ENativeComponentRole,
   INativeComponent,
   ETsVersion,
-  INativeComponentState
+  INativeComponentState,
 } from "@contexts/editor";
 import TsStateWatcher from "./TsStateWatcher";
-import { ITsFuncEditorProps, ITsInputTextEditorLazyProps, TsFuncEditor, TsInputTextEditorLazy } from "@/components/editors";
+import {
+  ITsFuncEditorProps,
+  ITsInputTextEditorLazyProps,
+  TsFuncEditor,
+  TsInputTextEditorLazy,
+} from "@/components/editors";
+import { COMMON_GROUPS, EVENT_GROUP } from "../common-groups";
 
 const KEY_STATE: INativeComponentState<
   ITsInputTextEditorLazyProps["options"],
@@ -16,6 +22,7 @@ const KEY_STATE: INativeComponentState<
 > = {
   name: "key",
   description: "",
+  group: EVENT_GROUP.id,
   type: "string",
   isStateIn: true,
   isStateOut: false,
@@ -33,6 +40,7 @@ export const ON_CHANGE_EVENT: INativeComponentState<
   name: "on-change",
   description: "",
   type: "function",
+  group: EVENT_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: null,
@@ -46,6 +54,7 @@ export const tsStateWatcherComponent: INativeComponent<any> = {
   cid: "TsStateWatcher",
   name: "StateWatcher",
   description: "The state watcher component",
+  groups: COMMON_GROUPS,
   states: [KEY_STATE, ON_CHANGE_EVENT],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
@@ -59,6 +68,6 @@ export const tsStateWatcherComponent: INativeComponent<any> = {
   },
   element: TsStateWatcher,
   role: ENativeComponentRole.CONTAINER,
-  tag: EComponentTag.STATE
+  tag: EComponentTag.STATE,
 };
 CTsComponentManager.instance.registerNativeComponent(tsStateWatcherComponent);

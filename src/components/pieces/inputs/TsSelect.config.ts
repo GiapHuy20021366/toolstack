@@ -5,16 +5,17 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import TsSelect from "./TsSelect";
 import {
   TsInputTextEditorLazy,
   ITsInputTextEditorLazyProps,
   TsInputTextAreaEditorLazy,
-  ITsInputTextAreaEditorLazyProps
+  ITsInputTextAreaEditorLazyProps,
 } from "@components/editors";
 import { ON_CHANGE_EVENT } from "./input-events";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputTextEditorLazyProps["options"],
@@ -23,6 +24,7 @@ const VALUE_STATE: INativeComponentState<
   name: "value",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: false,
   editable: false,
   isStateOut: false,
@@ -41,6 +43,7 @@ const OPTIONS_STATE: INativeComponentState<
   name: "options",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   defaultValue: [],
   editor: {
     element: TsInputTextAreaEditorLazy,
@@ -68,6 +71,7 @@ const VALUE_KEY_STATE: INativeComponentState<
   name: "value-key",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: "$$index",
@@ -83,6 +87,7 @@ const TEXT_KEY_STATE: INativeComponentState<
   name: "text-key",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: "$$option",
@@ -97,7 +102,14 @@ export const tsSelectComponent: INativeComponent<any> = {
   name: "Select",
   description: "The select element",
   element: TsSelect,
-  states: [VALUE_STATE, OPTIONS_STATE, VALUE_KEY_STATE, TEXT_KEY_STATE, ON_CHANGE_EVENT],
+  groups: COMMON_GROUPS,
+  states: [
+    VALUE_STATE,
+    OPTIONS_STATE,
+    VALUE_KEY_STATE,
+    TEXT_KEY_STATE,
+    ON_CHANGE_EVENT,
+  ],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsSelect.png",
   layout: {
@@ -109,6 +121,6 @@ export const tsSelectComponent: INativeComponent<any> = {
     minHeight: 30,
   },
   role: ENativeComponentRole.ELEMENT,
-  tag: EComponentTag.INPUT
+  tag: EComponentTag.INPUT,
 };
 CTsComponentManager.instance.registerNativeComponent(tsSelectComponent);

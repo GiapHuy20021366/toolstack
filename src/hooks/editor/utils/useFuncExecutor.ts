@@ -33,6 +33,12 @@ export default function useFuncExecutor() {
             }
             case EFuncStateParamType.SCOPE:
               return resolvePath(param.value, scope);
+            case EFuncStateParamType.TEXT:
+              return String(param.value);
+            case EFuncStateParamType.DEFAULT:
+              return param.value;
+            default:
+              return param.value;
           }
         });
         const executor = funcDef.executor({

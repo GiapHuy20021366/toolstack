@@ -9,6 +9,7 @@ import {
   IIFuncDefParam,
   IFuncDef,
   getDefaultFuncStateValue,
+  EFuncDefParamEditorType,
 } from "@contexts/editor";
 import { useMemo, useRef, useState } from "react";
 import { noneFunc } from "@functions/none";
@@ -63,54 +64,120 @@ function TsFunctionEditorFunction({
             {param.name}
             {param.series ? `[${idx - seriesIdx}]` : ""}
           </label>
-          <select
-            value={state.params[idx]?.type}
-            onChange={(e) => {
-              const params = [...state.params];
-              params[idx] = {
-                ...state.params[idx],
-                type: e.target.value as EFuncStateParamType,
-              };
-              onStateChange({
-                ...state,
-                params: params,
-              });
-            }}
-          >
-            {Object.values(EFuncStateParamType).map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <input
-            defaultValue={state.params[idx]?.value}
-            onBlur={(e) => {
-              if (state.params[idx].type === "json") {
-                try {
-                  const parsed = JSON.parse(e.target.value);
+          {param.elementType == null && (
+            <select
+              value={state.params[idx]?.type}
+              onChange={(e) => {
+                const params = [...state.params];
+                params[idx] = {
+                  ...state.params[idx],
+                  type: e.target.value as EFuncStateParamType,
+                };
+                onStateChange({
+                  ...state,
+                  params: params,
+                });
+              }}
+            >
+              {Object.values(EFuncStateParamType).map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {/* Handle input default*/}
+          {(param.elementType == null ||
+            param.elementType === EFuncDefParamEditorType.INPUT) && (
+            <input
+              defaultValue={state.params[idx]?.value}
+              onBlur={(e) => {
+                if (state.params[idx].type === "json") {
+                  try {
+                    const parsed = JSON.parse(e.target.value);
+                    const params = [...state.params];
+                    params[idx] = {
+                      ...state.params[idx],
+                      value: JSON.stringify(parsed, null, 2),
+                    };
+                    onStateChange({
+                      ...state,
+                      params: params,
+                    });
+                  } catch (error) {
+                    //
+                  }
+                } else {
                   const params = [...state.params];
-                  params[idx] = {
-                    ...state.params[idx],
-                    value: JSON.stringify(parsed, null, 2),
-                  };
+                  params[idx] = { ...state.params[idx], value: e.target.value };
                   onStateChange({
                     ...state,
                     params: params,
                   });
-                } catch (error) {
-                  //
                 }
-              } else {
+              }}
+            />
+          )}
+          {/* Select */}
+          {param.elementType === EFuncDefParamEditorType.SELECT && (
+            <select
+              value={state.params[idx]?.value}
+              onChange={(e) => {
                 const params = [...state.params];
                 params[idx] = { ...state.params[idx], value: e.target.value };
                 onStateChange({
                   ...state,
                   params: params,
                 });
-              }
-            }}
-          />
+              }}
+            >
+              {param.options?.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          )}
+          {/* Checkbox */}
+          {param.elementType === EFuncDefParamEditorType.CHECKBOX && (
+            <input
+              type="checkbox"
+              checked={state.params[idx]?.value === "true"}
+              onChange={(e) => {
+                const params = [...state.params];
+                params[idx] = {
+                  ...state.params[idx],
+                  value: e.target.checked ? "true" : "false",
+                };
+                onStateChange({
+                  ...state,
+                  params: params,
+                });
+              }}
+            />
+          )}
+          {/* Function */}
+          {param.elementType === EFuncDefParamEditorType.FUNCTION && (
+            <select
+              value={state.params[idx]?.value}
+              onChange={(e) => {
+                const params = [...state.params];
+                params[idx] = { ...state.params[idx], value: e.target.value };
+                onStateChange({
+                  ...state,
+                  params: params,
+                });
+              }}
+            >
+              {funcList.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
+                </option>
+              ))}
+            </select>
+          )}
+
           {param.series && idx > seriesIdx && (
             <button
               style={{ width: "30px", margin: 0, padding: "0 5px" }}
@@ -176,7 +243,7 @@ export default function TsFuncEditor({ cid, state }: ITsFuncEditorProps) {
       const newFuncState = getDefaultFuncStateValue();
       newFuncState.funcId = funcId;
       newFuncState.params = params.map((param) => ({
-        type: param.defaultType ?? EFuncStateParamType.SCOPE,
+        type: param.defaultType ?? EFuncStateParamType.DEFAULT,
         value: param.defaultValue ?? "",
       }));
       setFuncState(newFuncState);
@@ -245,8 +312,8 @@ export default function TsFuncEditor({ cid, state }: ITsFuncEditorProps) {
         output: {
           funcId: funcId,
           params: params.map((param) => ({
-            type: param.defaultType ?? EFuncStateParamType.SCOPE,
-            value: "",
+            type: param.defaultType ?? EFuncStateParamType.DEFAULT,
+            value: param.defaultValue ?? "",
           })),
         },
       });
@@ -323,8 +390,8 @@ export default function TsFuncEditor({ cid, state }: ITsFuncEditorProps) {
         error: {
           funcId: funcId,
           params: params.map((param) => ({
-            type: param.defaultType ?? EFuncStateParamType.SCOPE,
-            value: "",
+            type: param.defaultType ?? EFuncStateParamType.DEFAULT,
+            value: param.defaultValue ?? "",
           })),
         },
       });

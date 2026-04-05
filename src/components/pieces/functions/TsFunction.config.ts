@@ -7,29 +7,9 @@ import {
   ETsVersion,
   INativeComponentState,
 } from "@contexts/editor";
-import {
-  ITsFuncEditorProps,
-  ITsInputTextEditorLazyProps,
-  TsFuncEditor,
-  TsInputTextEditorLazy,
-} from "@/components/editors";
+import { ITsFuncEditorProps, TsFuncEditor } from "@/components/editors";
 import TsFunction from "./TsFunction";
-
-const FUNC_LABEL_STATE: INativeComponentState<
-  ITsInputTextEditorLazyProps["options"],
-  ITsInputTextEditorLazyProps
-> = {
-  name: "func-label",
-  description: "",
-  type: "string",
-  isStateIn: true,
-  isStateOut: false,
-  defaultValue: "Function",
-  editor: {
-    element: TsInputTextEditorLazy,
-    options: {},
-  },
-} as const;
+import { ACTION_GROUP, COMMON_GROUPS } from "../common-groups";
 
 export const ACTION_STATE: INativeComponentState<
   ITsFuncEditorProps["options"],
@@ -38,6 +18,7 @@ export const ACTION_STATE: INativeComponentState<
   name: "action",
   description: "",
   type: "function",
+  group: ACTION_GROUP.id,
   isStateIn: false,
   isStateOut: false,
   defaultValue: null,
@@ -51,7 +32,8 @@ export const tsFunctionComponent: INativeComponent<any> = {
   cid: "TsFunction",
   name: "Function",
   description: "The function component",
-  states: [FUNC_LABEL_STATE, ACTION_STATE],
+  groups: COMMON_GROUPS,
+  states: [ACTION_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
   layout: {

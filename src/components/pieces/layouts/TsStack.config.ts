@@ -5,15 +5,16 @@ import {
   ENativeComponentRole,
   INativeComponent,
   INativeComponentState,
-  ETsVersion
+  ETsVersion,
 } from "@contexts/editor";
 import {
   TsInputNumberEditor,
   ITsInputNumberEditorProps,
   TsSelectValueEditor,
-  ITsSelectValueEditorProps
+  ITsSelectValueEditorProps,
 } from "@components/editors";
 import TsStack from "./TsStack";
+import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
 
 const FLEX_DIRECTION_STATE: INativeComponentState<
   ITsSelectValueEditorProps["options"],
@@ -22,6 +23,7 @@ const FLEX_DIRECTION_STATE: INativeComponentState<
   name: "direction",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   defaultValue: "row",
   isStateIn: false,
   isStateOut: false,
@@ -48,6 +50,7 @@ const GAP_STATE: INativeComponentState<
   defaultValue: 0,
   isStateIn: false,
   isStateOut: false,
+  group: STATE_GROUP.id,
   editor: {
     element: TsInputNumberEditor,
     options: {
@@ -55,8 +58,8 @@ const GAP_STATE: INativeComponentState<
       props: {
         min: 0,
         max: 100,
-        step: 1
-      }
+        step: 1,
+      },
     },
   },
 };
@@ -68,6 +71,7 @@ const JUSTIFY_CONTENT_STATE: INativeComponentState<
   name: "justifyContent",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   defaultValue: "flex-start",
   isStateIn: false,
   isStateOut: false,
@@ -93,6 +97,7 @@ const ALIGN_ITEMS_STATE: INativeComponentState<
   name: "alignItems",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   defaultValue: "stretch",
   isStateIn: false,
   isStateOut: false,
@@ -117,6 +122,7 @@ const FLEX_WRAP_STATE: INativeComponentState<
   name: "wrap",
   description: "",
   type: "string",
+  group: STATE_GROUP.id,
   defaultValue: "nowrap",
   isStateIn: false,
   isStateOut: false,
@@ -136,6 +142,7 @@ export const tsContainerComponent: INativeComponent<any> = {
   cid: "TsStack",
   name: "Stack",
   description: "The stack that contains every thing",
+  groups: COMMON_GROUPS,
   states: [
     FLEX_DIRECTION_STATE,
     GAP_STATE,

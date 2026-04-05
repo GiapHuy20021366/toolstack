@@ -18,7 +18,8 @@
         }
 
         &.hidden {
-            display: none !important;
+            visibility: hidden;
+            pointer-events: none;
         }
     }
 

@@ -3,7 +3,7 @@ import {
   useGraphicDataClasses,
   useGraphicDataStyle,
   useGraphicStateValue,
-  useFuncExecutor
+  useFuncExecutor,
 } from "@hooks/editor";
 import { getDefaultFuncStateValue, IFuncState } from "@contexts/editor";
 import { resolvePath } from "@utils";
@@ -16,8 +16,16 @@ export default function TsSelect({ cid }: IProps) {
   const [value, setValue] = useGraphicStateValue(cid, "value", "");
   const [valueKey] = useGraphicStateValue(cid, "value-key", "$$index");
   const [textKey] = useGraphicStateValue(cid, "text-key", "$$option");
-  const [onChangeEvent] = useGraphicStateValue<IFuncState>(cid, "on-change", getDefaultFuncStateValue());
-  const [options] = useGraphicStateValue<unknown[]>(cid, "options", []);
+  const [onChangeEvent] = useGraphicStateValue<IFuncState>(
+    cid,
+    "on-change",
+    getDefaultFuncStateValue(),
+  );
+  const [options] = useGraphicStateValue<unknown[] | undefined>(
+    cid,
+    "options",
+    [],
+  );
   const { classes } = useGraphicDataClasses(cid);
   const { style } = useGraphicDataStyle(cid);
 
@@ -28,7 +36,7 @@ export default function TsSelect({ cid }: IProps) {
       style={{
         width: "100%",
         height: "100%",
-        ...style
+        ...style,
       }}
       className={classes}
       value={JSON.stringify(value)}
@@ -39,11 +47,11 @@ export default function TsSelect({ cid }: IProps) {
           setValue(e.target.value);
         }
         execute(onChangeEvent, {
-          $$event: e
+          $$event: e,
         });
       }}
     >
-      {options.map((option, index) => {
+      {(options ?? []).map((option, index) => {
         const scope = {
           $$index: index,
           $$option: option,

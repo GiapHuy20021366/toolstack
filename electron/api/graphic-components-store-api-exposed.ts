@@ -16,7 +16,6 @@ contextBridge.exposeInMainWorld("graphicComponentsStoreAPI", {
       return ipcRenderer.invoke("graphicComponentsStoreAPI/graphics/getAll");
     },
     save(data) {
-      console.log(data);
       return ipcRenderer.invoke(
         "graphicComponentsStoreAPI/graphics/save",
         data,

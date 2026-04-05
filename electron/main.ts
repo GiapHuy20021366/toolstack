@@ -8,6 +8,7 @@ import fs from "fs";
 import { TypeEntry, TypeSystem } from "./utils/type-system";
 import "./ipc/graphic-components-store-ipc";
 import "./ipc/graphic-pieces-store-ipc";
+import "./ipc/application-store-ipc";
 import { getAbsolutePath } from "./utils/image-saver";
 
 const require = createRequire(import.meta.url);
