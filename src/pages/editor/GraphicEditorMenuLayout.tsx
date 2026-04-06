@@ -1,4 +1,3 @@
-import { CSSProperties } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -17,79 +16,13 @@ import {
   useGraphicDataLayout,
   useGraphicDataVisible,
   useGraphicDataClasses,
-  useGraphicDataStyle
 } from "@hooks/editor";
-
-interface ICssProperty {
-  key: keyof CSSProperties;
-  name: string;
-  description: string;
-}
-
-const CSS_PROPERTIES: ICssProperty[] = [
-  // {
-  //   key: "margin",
-  //   name: "Margin",
-  //   description: ""
-  // },
-  {
-    key: "padding",
-    name: "Padding",
-    description: ""
-  },
-  {
-    key: "boxSizing",
-    name: "Box Sizing",
-    description: ""
-  },
-  {
-    key: "backgroundColor",
-    name: "Background color",
-    description: ""
-  },
-  {
-    key: "color",
-    name: "Text color",
-    description: ""
-  },
-  {
-    key: "opacity",
-    name: "Opacity",
-    description: ""
-  },
-  {
-    key: "fontSize",
-    name: "Font size",
-    description: ""
-  },
-  {
-    key: "fontWeight",
-    name: "Font weight",
-    description: ""
-  },
-  {
-    key: "fontFamily",
-    name: "Font family",
-    description: ""
-  },
-  {
-    key: "textAlign",
-    name: "Text align",
-    description: ""
-  },
-  {
-    key: "border",
-    name: "Border",
-    description: ""
-  }
-] as const;
 
 export default function GraphicEditorMenuLayout() {
   const { selectedCid } = useWorkspaceSelectedComponent();
   const { layout, setLayout } = useGraphicDataLayout(selectedCid);
   const { visible, setVisible } = useGraphicDataVisible(selectedCid);
   const { classes, setClasses } = useGraphicDataClasses(selectedCid);
-  const { style, setStyle } = useGraphicDataStyle(selectedCid);
 
   const updateLayout = (
     x: number,
@@ -104,7 +37,6 @@ export default function GraphicEditorMenuLayout() {
     if (layout.maxWidth != null && width > layout.maxWidth) return;
     if (layout.minHeight != null && height < layout.minHeight) return;
     if (layout.maxHeight != null && height > layout.maxHeight) return;
-
 
     setLayout({ ...layout, x, y, width, height });
   };
@@ -252,44 +184,6 @@ export default function GraphicEditorMenuLayout() {
                 placeholder="e.g. flex items-center"
                 fullWidth
               />
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
-      )}
-
-
-      {/* Style */}
-      {layout != null && (
-        <Accordion defaultExpanded disableGutters>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography variant="subtitle2">Style</Typography>
-          </AccordionSummary>
-
-          <AccordionDetails>
-            <Stack gap={1}>
-              {
-                CSS_PROPERTIES.map((property) => (
-                  <Stack key={`${selectedCid}.${property.key}`} direction={"row"}>
-                    <label style={{ width: "150px" }}>{property.name}</label>
-                    <input
-                      type="text"
-                      defaultValue={style[property.key]}
-                      onBlur={(e) => {
-                        setStyle({
-                          ...style,
-                          [property.key]: e.target.value
-                        })
-                      }}
-                      onKeyDown={(e) => {
-                        setStyle({
-                          ...style,
-                          [property.key]: (e.target as HTMLInputElement).value
-                        })
-                      }} />
-                  </Stack>
-                ))
-              }
-              {/* Define css properties */}
             </Stack>
           </AccordionDetails>
         </Accordion>

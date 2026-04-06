@@ -16,6 +16,7 @@ import {
 } from "@components/editors";
 import TsInputJson from "./TsInputJson";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 export enum EJsonInputType {
   STRING = "string",
@@ -103,7 +104,7 @@ export const tsInputJsonComponent: INativeComponent<any> = {
   description: "The json input element",
   groups: COMMON_GROUPS,
   element: TsInputJson,
-  states: [TYPE_STATE, VALUE_STATE],
+  states: [TYPE_STATE, VALUE_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsInput.png",
   layout: {

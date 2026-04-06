@@ -2,6 +2,7 @@ import "./layouts/TsScreen.config";
 import "./layouts/TsLayer.config";
 import "./layouts/TsContainer.config";
 import "./layouts/TsStack.config";
+import "./layouts/TsBox.config";
 
 import "./inputs/TsLabel.config";
 import "./inputs/TsInput.config";

@@ -16,6 +16,7 @@ import {
 } from "@components/editors";
 import { ON_CHANGE_EVENT } from "./input-events";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputTextEditorLazyProps["options"],
@@ -109,6 +110,7 @@ export const tsSelectComponent: INativeComponent<any> = {
     VALUE_KEY_STATE,
     TEXT_KEY_STATE,
     ON_CHANGE_EVENT,
+    STYLE_STATE
   ],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsSelect.png",

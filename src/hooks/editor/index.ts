@@ -18,6 +18,7 @@ export { default as useGlobalState } from "./state/useGlobalState";
 export { default as useWorkspaceState } from "./state/useWorkspaceState";
 export { default as useGraphicRefRegistration } from "./state/useGraphicRefRegistration";
 export { default as useGraphicExternalSync } from "./state/useGraphicExternalSync";
+export { default as useGraphicStateStyle } from "./state/useGraphicStateStyle";
 
 export { default as useFuncList } from "./workspace/useFuncList";
 export { default as useLayerList } from "./workspace/useLayerList";

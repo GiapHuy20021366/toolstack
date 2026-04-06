@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
 import {
   useEditorStateContext,
+  useFuncExecutor,
   useGraphicDataClasses,
-  useGraphicDataStyle,
   useGraphicRefRegistration,
+  useGraphicStateStyle,
   useGraphicStateValue,
 } from "@hooks/editor";
 import { IFuncExecutorContextScope, makeEditorRefKey } from "@contexts/editor";
@@ -20,12 +21,13 @@ interface IGroupFunctionRef {
 
 export default function TsGroupFunction({ cid, children }: IProps) {
   const { classes } = useGraphicDataClasses(cid);
-  const { style } = useGraphicDataStyle(cid);
+  const { style } = useGraphicStateStyle(cid, false);
   const { stateManager } = useEditorStateContext();
 
   const [skipError] = useGraphicStateValue<boolean>(cid, "skip-error", false);
   const [parallel] = useGraphicStateValue<boolean>(cid, "parallel", false);
 
+  const { executeFunc } = useFuncExecutor();
   const [runCount, setRunCount] = useState(0);
 
   const ref = useRef<IGroupFunctionRef>({
@@ -50,7 +52,7 @@ export default function TsGroupFunction({ cid, children }: IProps) {
     }
 
     setRunCount((c) => c + 1);
-    try {
+    const wrappedFunc = async (scope: IFuncExecutorContextScope) => {
       if (parallel) {
         await Promise.all(
           refs.map(async (ref) => {
@@ -74,6 +76,12 @@ export default function TsGroupFunction({ cid, children }: IProps) {
           }
         }
       }
+    };
+    try {
+      await executeFunc(wrappedFunc, scope, {
+        actionName: "action",
+        cid: cid,
+      });
     } finally {
       setRunCount((c) => c - 1);
     }

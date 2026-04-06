@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import {
   useFuncExecutor,
   useGraphicDataClasses,
-  useGraphicDataStyle,
   useGraphicRefRegistration,
+  useGraphicStateStyle,
   useGraphicStateValue,
 } from "@hooks/editor";
 import {
@@ -23,7 +23,7 @@ interface IFunctionRef {
 
 export default function TsFunction({ cid, children }: IProps) {
   const { classes } = useGraphicDataClasses(cid);
-  const { style } = useGraphicDataStyle(cid);
+  const { style } = useGraphicStateStyle(cid, false);
 
   const [btnLabel] = useGraphicStateValue<string>(cid, "btn-label", "");
   const { execute } = useFuncExecutor();
@@ -43,7 +43,10 @@ export default function TsFunction({ cid, children }: IProps) {
   ref.current.action = async (scope: IFuncExecutorContextScope) => {
     setRunCount((c) => c + 1);
     try {
-      await execute(onActionEvent, scope);
+      await execute(onActionEvent, scope, {
+        actionName: "action",
+        cid: cid,
+      });
     } finally {
       setRunCount((c) => c - 1);
     }

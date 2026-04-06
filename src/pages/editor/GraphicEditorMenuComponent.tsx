@@ -289,7 +289,7 @@ export default function GraphicEditorMenuComponent() {
                     {/* DRAGGABLE IMAGE */}
                     <Box
                       component="img"
-                      src={`images://${component.image}`}
+                      src={component.image}
                       alt={component.name}
                       draggable
                       onDragStart={(e) => {

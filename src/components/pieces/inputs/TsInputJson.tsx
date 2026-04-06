@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import {
   useGraphicDataClasses,
-  useGraphicDataStyle,
+  useGraphicStateStyle,
   useGraphicStateValue
 } from "@hooks/editor";
 import { EJsonInputType, isValidInputValue, JSON_TYPE_OPTIONS } from "./TsInputJson.config";
@@ -14,7 +14,7 @@ export default function TsInputJson({ cid }: IProps) {
     const [value, setValue] = useGraphicStateValue(cid, "value", "");
     const [type, setType] = useGraphicStateValue(cid, "type", EJsonInputType.ANY);
     const { classes } = useGraphicDataClasses(cid);
-    const { style } = useGraphicDataStyle(cid);
+    const { style } = useGraphicStateStyle(cid, false);
 
     const inputRef = useRef<HTMLTextAreaElement>(null);
 

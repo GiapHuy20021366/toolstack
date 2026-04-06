@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import {
   useGraphicDataClasses,
-  useGraphicDataStyle,
+  useGraphicStateStyle,
   useGraphicStateValue,
   useWorkspaceMode
 } from "@hooks/editor";
@@ -16,7 +16,7 @@ export default function TsLabel({ cid }: IProps) {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { classes } = useGraphicDataClasses(cid);
-  const { style } = useGraphicDataStyle(cid);
+  const { style } = useGraphicStateStyle(cid, false);
   const { mode } = useWorkspaceMode();
 
   const isEditMode = mode === EGraphicEditorWorkspaceMode.EDIT;

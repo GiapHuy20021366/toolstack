@@ -1,6 +1,6 @@
 import {
   useGraphicDataClasses,
-  useGraphicDataStyle,
+  useGraphicStateStyle,
   useGraphicStateValue
 } from "@hooks/editor";
 
@@ -11,7 +11,7 @@ export default function TsInputRadio({ cid }: IProps) {
   const [value, setValue] = useGraphicStateValue(cid, "value", true);
   const [name] = useGraphicStateValue(cid, "name", "");
   const { classes } = useGraphicDataClasses(cid);
-  const { style } = useGraphicDataStyle(cid);
+  const { style } = useGraphicStateStyle(cid, false);
 
   return (
     <input

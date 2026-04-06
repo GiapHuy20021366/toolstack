@@ -15,6 +15,7 @@ import {
 } from "@components/editors";
 import TsInputRadio from "./TsInputRadio";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputCheckboxValueCheckProps["options"],
@@ -57,7 +58,7 @@ export const tsInputRadioComponent: INativeComponent<any> = {
   description: "The input radio element",
   groups: COMMON_GROUPS,
   element: TsInputRadio,
-  states: [VALUE_STATE, NAME_STATE],
+  states: [VALUE_STATE, NAME_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsInputRadio.png",
   layout: {

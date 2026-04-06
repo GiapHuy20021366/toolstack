@@ -13,6 +13,7 @@ import {
 } from "@components/editors";
 import TsLabel from "./TsLabel";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const LABEL_STATE: INativeComponentState<
   ITsInputTextEditorLazyProps["options"],
@@ -37,7 +38,7 @@ export const tsInputLabelComponent: INativeComponent<any> = {
   description: "The label element",
   groups: COMMON_GROUPS,
   element: TsLabel,
-  states: [LABEL_STATE],
+  states: [LABEL_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsLabel.png",
   layout: {

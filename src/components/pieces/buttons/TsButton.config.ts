@@ -14,6 +14,7 @@ import {
 import { ON_CLICK_EVENT } from "./events";
 import TsButton from "./TsButton";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputInputValueEditorProps["options"],
@@ -55,7 +56,7 @@ export const tsInputComponent: INativeComponent<any> = {
   description: "The button element",
   groups: COMMON_GROUPS,
   element: TsButton,
-  states: [VALUE_STATE, TEXT_STATE, ON_CLICK_EVENT],
+  states: [VALUE_STATE, TEXT_STATE, ON_CLICK_EVENT, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsButton.png",
   layout: {

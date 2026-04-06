@@ -13,6 +13,7 @@ import {
 } from "@components/editors";
 import TsInputCheckbox from "./TsInputCheckbox";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const VALUE_STATE: INativeComponentState<
   ITsInputCheckboxValueCheckProps["options"],
@@ -37,7 +38,7 @@ export const tsInputCheckboxComponent: INativeComponent<any> = {
   description: "The input checkbox element",
   groups: COMMON_GROUPS,
   element: TsInputCheckbox,
-  states: [VALUE_STATE],
+  states: [VALUE_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsInputCheckbox.png",
   layout: {

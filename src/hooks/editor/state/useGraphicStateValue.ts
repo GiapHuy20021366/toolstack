@@ -2,12 +2,6 @@ import { useMemo } from "react";
 import useManageState, { IUseManageStateOptions } from "../useEditorState";
 import { makeEditorGraphicStateKey } from "@contexts/editor";
 
-export interface IUseGraphicStateValueOptions<T = unknown> {
-  cid: string;
-  stateName: string;
-  defaultValue: T;
-}
-
 export default function useGraphicStateValue<T>(
   cid: string,
   stateName: string,

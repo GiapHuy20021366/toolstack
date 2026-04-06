@@ -2,6 +2,7 @@ import { IdentifyStateHandler } from "./identify-state-handler";
 import { GlobalStateHandler } from "./global-state-handler";
 import { StateManager } from "../../common/state-manager";
 import { ExternalStateHandler } from "./external-state-handler";
+import { FunctionStateHandler } from "./function-state-handler";
 
 export enum EEditorStateManagerTag {
   GRAPHIC = "@graphic",
@@ -87,6 +88,7 @@ export class EditorStateManager extends StateManager {
   private _externalStateHandler: ExternalStateHandler;
   private _globalStateHandler: GlobalStateHandler;
   private _identifyStateHandler: IdentifyStateHandler;
+  private _functionStateHandler: FunctionStateHandler;
 
   constructor() {
     super();
@@ -94,6 +96,7 @@ export class EditorStateManager extends StateManager {
     this._globalStateHandler = new GlobalStateHandler(this);
     this._identifyStateHandler = new IdentifyStateHandler(this);
     this._externalStateHandler = new ExternalStateHandler(this);
+    this._functionStateHandler = new FunctionStateHandler(this);
   }
 
   syncWithParent(parent: StateManager) {
@@ -137,6 +140,10 @@ export class EditorStateManager extends StateManager {
 
   get identifyStateHandler() {
     return this._identifyStateHandler;
+  }
+
+  get functionStateHandler() {
+    return this._functionStateHandler;
   }
 
   get parent() {

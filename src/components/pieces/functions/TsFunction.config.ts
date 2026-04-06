@@ -10,6 +10,7 @@ import {
 import { ITsFuncEditorProps, TsFuncEditor } from "@/components/editors";
 import TsFunction from "./TsFunction";
 import { ACTION_GROUP, COMMON_GROUPS } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 export const ACTION_STATE: INativeComponentState<
   ITsFuncEditorProps["options"],
@@ -33,7 +34,7 @@ export const tsFunctionComponent: INativeComponent<any> = {
   name: "Function",
   description: "The function component",
   groups: COMMON_GROUPS,
-  states: [ACTION_STATE],
+  states: [ACTION_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
   layout: {

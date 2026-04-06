@@ -1,8 +1,8 @@
 import {
   useGraphicDataClasses,
-  useGraphicDataStyle,
   useGraphicStateValue,
-  useFuncExecutor
+  useFuncExecutor,
+  useGraphicStateStyle,
 } from "@hooks/editor";
 import { getDefaultFuncStateValue, IFuncState } from "@contexts/editor";
 
@@ -13,8 +13,12 @@ export default function TsInput({ cid }: IProps) {
   const [type, _setType] = useGraphicStateValue(cid, "type", "text");
   const [value, setValue] = useGraphicStateValue(cid, "value", "");
   const { classes } = useGraphicDataClasses(cid);
-  const { style } = useGraphicDataStyle(cid);
-  const [onChangeEvent] = useGraphicStateValue<IFuncState>(cid, "on-change", getDefaultFuncStateValue());
+  const { style } = useGraphicStateStyle(cid, false);
+  const [onChangeEvent] = useGraphicStateValue<IFuncState>(
+    cid,
+    "on-change",
+    getDefaultFuncStateValue(),
+  );
 
   const { execute } = useFuncExecutor();
 
@@ -24,13 +28,20 @@ export default function TsInput({ cid }: IProps) {
         width: "100%",
         height: "100%",
         boxSizing: "border-box",
-        ...style
+        ...style,
       }}
       type={type}
       value={value}
       onChange={(event) => {
         setValue(event.target.value);
-        execute(onChangeEvent, { $$event: event });
+        execute(
+          onChangeEvent,
+          { $$event: event },
+          {
+            actionName: "on-change",
+            cid: cid,
+          },
+        );
       }}
       className={classes}
     />

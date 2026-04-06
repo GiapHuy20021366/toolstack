@@ -13,6 +13,7 @@ import {
   TsInputCheckboxValueCheck,
 } from "@components/editors";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const PARALLEL_STATE: INativeComponentState<
   ITsInputCheckboxValueCheckProps["options"],
@@ -53,7 +54,7 @@ export const tsGroupFunctionComponent: INativeComponent<any> = {
   name: "GroupFunction",
   description: "The function component",
   groups: COMMON_GROUPS,
-  states: [PARALLEL_STATE, SKIP_ERROR_STATE],
+  states: [PARALLEL_STATE, SKIP_ERROR_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
   layout: {

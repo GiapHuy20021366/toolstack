@@ -15,6 +15,7 @@ import {
   ITsInputInputValueEditorProps,
 } from "@components/editors";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const TYPE_STATE: INativeComponentState<
   ITsInputInputTypeSelectorProps["options"],
@@ -56,7 +57,7 @@ export const tsInputComponent: INativeComponent<any> = {
   description: "The input element",
   groups: COMMON_GROUPS,
   element: TsInput,
-  states: [TYPE_STATE, VALUE_STATE],
+  states: [TYPE_STATE, VALUE_STATE, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsInput.png",
   layout: {

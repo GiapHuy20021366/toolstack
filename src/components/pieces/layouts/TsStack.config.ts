@@ -15,6 +15,7 @@ import {
 } from "@components/editors";
 import TsStack from "./TsStack";
 import { COMMON_GROUPS, STATE_GROUP } from "../common-groups";
+import { getStyleState } from "../common-states";
 
 const FLEX_DIRECTION_STATE: INativeComponentState<
   ITsSelectValueEditorProps["options"],
@@ -149,6 +150,9 @@ export const tsContainerComponent: INativeComponent<any> = {
     JUSTIFY_CONTENT_STATE,
     ALIGN_ITEMS_STATE,
     FLEX_WRAP_STATE,
+    getStyleState({
+      excludes: ["flexDirection", "gap", "justifyContent", "alignItems", "flexWrap"]
+    })
   ],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",

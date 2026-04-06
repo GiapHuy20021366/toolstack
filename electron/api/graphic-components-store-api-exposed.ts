@@ -21,5 +21,27 @@ contextBridge.exposeInMainWorld("graphicComponentsStoreAPI", {
         data,
       );
     },
+    revert(cid) {
+      return ipcRenderer.invoke(
+        "graphicComponentsStoreAPI/graphics/revert",
+        cid,
+      );
+    },
+    remove(cid) {
+      return ipcRenderer.invoke(
+        "graphicComponentsStoreAPI/graphics/remove",
+        cid,
+      );
+    },
+    getRecentList() {
+      return ipcRenderer.invoke(
+        "graphicComponentsStoreAPI/graphics/getRecentList",
+      );
+    },
+    getDeleteList() {
+      return ipcRenderer.invoke(
+        "graphicComponentsStoreAPI/graphics/getDeleteList",
+      );
+    },
   },
 } as IGraphicComponentsStoreAPI);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Rnd } from "react-rnd";
 import { Stack } from "@mui/material";
 import {
@@ -6,8 +7,8 @@ import {
   DeleteOutlined,
   OpenWithOutlined,
 } from "@mui/icons-material";
-import { useGraphicEditorContext } from "@hooks/editor";
-import React, { useMemo } from "react";
+import { useGraphicEditorContext, useGraphicStateStyle } from "@hooks/editor";
+import React, { CSSProperties, useLayoutEffect, useMemo, useRef } from "react";
 import { CTsComponentManager, ENativeComponentRole } from "@contexts/editor";
 import {
   useGraphicDataLayout,
@@ -26,6 +27,9 @@ interface IProps {
   disableTransform?: boolean;
 }
 
+const toKebabCase = (str: string) =>
+  str.replace(/[A-Z]/g, (match) => "-" + match.toLowerCase());
+
 export default function GraphicRenderer({
   cid,
   inLayer,
@@ -41,6 +45,11 @@ export default function GraphicRenderer({
   const { visible } = useGraphicDataVisible(cid);
   const { name } = useGraphicDataName(cid);
   const { isVisibleBySelectedLayer, selectedLayer } = useSelectedLayer();
+
+  const { style } = useGraphicStateStyle(cid, true);
+
+
+  const ref = useRef<any>();
 
   const isSelected = cid === selectedCid;
   const isDragOver = dragoverCid === cid;
@@ -82,10 +91,30 @@ export default function GraphicRenderer({
     .filter(Boolean)
     .join(" ");
 
+  // Force override of state each time render
+  useLayoutEffect(() => {
+    try {
+      const refCurrent = ref.current;
+      const element = (refCurrent?.resizable?.resizable || refCurrent?.draggable?.draggable) as HTMLDivElement | undefined;
+      if (element != null) {
+        for (const prop in style) {
+          const cssKey = toKebabCase(prop);
+          element.style.setProperty(
+            cssKey,
+            style[prop as keyof CSSProperties] as any
+          );
+        }
+      }
+    } catch (error) {
+      // 
+    }
+  });
+
   return (
     <>
       {layout != null && (
         <Rnd
+          ref={ref}
           component-cid={cid}
           container-cid={isContainer ? cid : undefined}
           layer-cid={isLayer ? cid : undefined}
@@ -149,6 +178,7 @@ export default function GraphicRenderer({
           style={{
             position: disableTransform ? "relative" : "absolute",
             display: disableTransform ? "block" : "inline-flex",
+            ...style
           }}
         >
           {/* Utils */}

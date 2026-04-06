@@ -8,13 +8,14 @@ import {
 } from "@contexts/editor";
 import TsContainer from "./TsContainer";
 import { COMMON_GROUPS } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 export const tsLayerComponent: INativeComponent<any> = {
   cid: "TsLayer",
   name: "Layer",
   description: "The layer that contains every thing",
   groups: COMMON_GROUPS,
-  states: [],
+  states: [STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
   layout: {

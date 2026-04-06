@@ -10,10 +10,10 @@ import TsContainer from "./TsContainer";
 import { COMMON_GROUPS } from "../common-groups";
 import { STYLE_STATE } from "../common-states";
 
-export const tsContainerComponent: INativeComponent<any> = {
-  cid: "TsContainer",
-  name: "Container",
-  description: "The container that contains every thing",
+export const tBoxComponent: INativeComponent<any> = {
+  cid: "TsBox",
+  name: "Box",
+  description: "The box that contains every thing",
   groups: COMMON_GROUPS,
   states: [STYLE_STATE],
   version: ETsVersion._0_0_0,
@@ -29,5 +29,8 @@ export const tsContainerComponent: INativeComponent<any> = {
   element: TsContainer,
   role: ENativeComponentRole.CONTAINER,
   tag: EComponentTag.LAYOUT,
+  rndBehaviors: {
+    disableTransform: true
+  }
 };
-CTsComponentManager.instance.registerNativeComponent(tsContainerComponent);
+CTsComponentManager.instance.registerNativeComponent(tBoxComponent);

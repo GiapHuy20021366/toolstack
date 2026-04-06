@@ -1,8 +1,8 @@
 import React from "react";
 import {
     useGraphicDataClasses,
+    useGraphicStateStyle,
     useGraphicStateValue,
-    useGraphicDataStyle
 } from "@hooks/editor";
 import type { Property } from "csstype";
 
@@ -13,7 +13,7 @@ interface IProps {
 
 export default function TsStack({ cid, children }: IProps) {
     const { classes } = useGraphicDataClasses(cid);
-    const { style } = useGraphicDataStyle(cid);
+    const { style } = useGraphicStateStyle(cid, false);
 
     const [flexDirection] = useGraphicStateValue<Property.FlexDirection>(cid, "direction", "row");
     const [gap] = useGraphicStateValue<Property.Gap>(cid, "gap", 0);

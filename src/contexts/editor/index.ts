@@ -32,6 +32,11 @@ export {
 export { GlobalStateHandler } from "./state/global-state-handler";
 export { IdentifyStateHandler } from "./state/identify-state-handler";
 export {
+  FunctionStateHandler,
+  type IFuncDataManage,
+  type IFuncOperationInfo,
+} from "./state/function-state-handler";
+export {
   type IDependencies,
   SHORT_CUT_MAP,
   analyzeDependencies,

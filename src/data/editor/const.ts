@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { IGraphicScreenResolution } from "./type";
 
 export enum EGraphicEditorTabMenu {
@@ -74,3 +75,17 @@ export enum EGraphicEditorWorkspaceMode {
     VIEW = "view",
     EDIT = "edit"
 }
+
+export const CONTROLLED_STYLES: (keyof CSSProperties)[] = [
+    "margin",
+    "marginTop",
+    "marginRight",
+    "marginBottom",
+    "marginLeft",
+    "width",
+    "minWidth",
+    "maxWidth",
+    "height",
+    "minHeight",
+    "maxHeight"
+] as const;

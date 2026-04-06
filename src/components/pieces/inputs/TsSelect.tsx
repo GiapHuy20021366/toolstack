@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useGraphicDataClasses,
-  useGraphicDataStyle,
   useGraphicStateValue,
   useFuncExecutor,
+  useGraphicStateStyle,
 } from "@hooks/editor";
 import { getDefaultFuncStateValue, IFuncState } from "@contexts/editor";
 import { resolvePath } from "@utils";
@@ -27,7 +27,7 @@ export default function TsSelect({ cid }: IProps) {
     [],
   );
   const { classes } = useGraphicDataClasses(cid);
-  const { style } = useGraphicDataStyle(cid);
+  const { style } = useGraphicStateStyle(cid, false);
 
   const { execute } = useFuncExecutor();
 
@@ -46,9 +46,16 @@ export default function TsSelect({ cid }: IProps) {
         } catch {
           setValue(e.target.value);
         }
-        execute(onChangeEvent, {
-          $$event: e,
-        });
+        execute(
+          onChangeEvent,
+          {
+            $$event: e,
+          },
+          {
+            actionName: "on-change",
+            cid: cid,
+          },
+        );
       }}
     >
       {(options ?? []).map((option, index) => {

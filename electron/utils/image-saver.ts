@@ -4,8 +4,10 @@ import fs from "fs";
 
 export const userDataPath = app.getPath("userData");
 
+export const IMAGE_PROTOCOL = "images://";
+
 export function getAbsolutePath(relativePath: string) {
-  return path.join(userDataPath, relativePath);
+  return path.join(userDataPath, relativePath.replace(IMAGE_PROTOCOL, ""));
 }
 
 export function saveBase64Image(base64: string, cid: string) {
@@ -23,7 +25,7 @@ export function saveBase64Image(base64: string, cid: string) {
 
   fs.writeFileSync(absolutePath, Buffer.from(data, "base64"));
 
-  return relativePath;
+  return IMAGE_PROTOCOL + relativePath;
 }
 
 export function deleteImage(path: string) {

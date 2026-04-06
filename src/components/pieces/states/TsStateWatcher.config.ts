@@ -15,6 +15,7 @@ import {
   TsInputTextEditorLazy,
 } from "@/components/editors";
 import { COMMON_GROUPS, EVENT_GROUP } from "../common-groups";
+import { STYLE_STATE } from "../common-states";
 
 const KEY_STATE: INativeComponentState<
   ITsInputTextEditorLazyProps["options"],
@@ -55,7 +56,7 @@ export const tsStateWatcherComponent: INativeComponent<any> = {
   name: "StateWatcher",
   description: "The state watcher component",
   groups: COMMON_GROUPS,
-  states: [KEY_STATE, ON_CHANGE_EVENT],
+  states: [KEY_STATE, ON_CHANGE_EVENT, STYLE_STATE],
   version: ETsVersion._0_0_0,
   image: "/images/review/TsContainer.png",
   layout: {
